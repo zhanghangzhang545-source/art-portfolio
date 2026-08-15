@@ -4,9 +4,16 @@
 // 任意变更回调 onChange(newQuery)，由列表页负责更新 URL 与重渲。
 // ============================================================
 import { h } from '../../core/dom.js';
-import { WORK_TYPES, STAGES, SORT_OPTIONS } from '../../data/types.js';
+import { WORK_TYPES, SORT_OPTIONS } from '../../data/types.js';
 
-export function renderFilterBar(query, years, onChange) {
+/**
+ * 渲染筛选栏。
+ * @param {object} query        当前查询（type/q/stage/year/sort）
+ * @param {number[]} years      可选年份（由列表实际数据推导）
+ * @param {string[]} stages     可选阶段（由列表实际数据推导，可扩展，不再硬编码）
+ * @param {(q:object)=>void} onChange
+ */
+export function renderFilterBar(query, years, stages, onChange) {
   const state = {
     type: query.type || '',
     q: query.q || '',
@@ -37,7 +44,7 @@ export function renderFilterBar(query, years, onChange) {
 
   const stageSel = h('select', {
     on: { change: (e) => { state.stage = e.target.value; emit(); } },
-  }, [h('option', { value: '' }, '全部阶段'), ...STAGES.map((s) => h('option', { value: s, selected: state.stage === s }, s))]);
+  }, [h('option', { value: '' }, '全部阶段'), ...stages.map((s) => h('option', { value: s, selected: state.stage === s }, s))]);
 
   const yearSel = h('select', {
     on: { change: (e) => { state.year = e.target.value; emit(); } },

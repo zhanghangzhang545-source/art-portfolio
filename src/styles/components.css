@@ -6,8 +6,7 @@
 .site-nav {
   position: sticky; top: 0; z-index: 50;
   height: var(--nav-h);
-  background: color-mix(in srgb, var(--paper) 90%, transparent);
-  backdrop-filter: saturate(120%);
+  background: var(--paper);
   border-bottom: 1px solid var(--line);
 }
 .site-nav__inner { height: 100%; display: flex; align-items: center; gap: var(--s5); }
@@ -51,7 +50,7 @@
 .work-card__caption {
   position: absolute; left: 0; right: 0; bottom: 0;
   padding: var(--s5) var(--s4) var(--s4);
-  background: linear-gradient(to top, rgba(244,241,235,.94) 8%, rgba(244,241,235,.0) 100%);
+  background: rgba(244,241,235,.94);
   opacity: 0; transform: translateY(8px); transition: opacity .3s ease, transform .3s ease;
   pointer-events: none;
 }

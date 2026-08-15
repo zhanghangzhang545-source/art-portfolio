@@ -15,6 +15,9 @@
   .cat-index a:nth-child(2) { border-right: 0; }
   .cat-index a { border-bottom: 1px solid var(--line); }
 
+  .cv-cert-grid { grid-template-columns: repeat(2, 1fr); }
+  .site-footer__inner { grid-template-columns: 1fr 1fr; }
+
   .hero { gap: var(--s6); }
   .hero__title { font-size: clamp(44px, 7vw, 84px); }
   .detail { grid-template-columns: 1.3fr 1fr; gap: var(--s6); }
@@ -125,6 +128,7 @@
   .table { min-width: 640px; }
 
   .login-card { padding: var(--s6) var(--s5); }
+  .cv-cert-grid { grid-template-columns: 1fr 1fr; }
 }
 
 /* —— 超小屏：<=420px —— */
@@ -134,4 +138,6 @@
   .cat-index a { border-right: 0; }
   .stat-row { grid-template-columns: 1fr; }
   .thumb-list { grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); }
+  .cv-cert-grid { grid-template-columns: 1fr; }
+  .site-footer__inner { grid-template-columns: 1fr; gap: var(--s5); }
 }

@@ -16,7 +16,10 @@ export function renderNav() {
     { href: '#/about', label: '关于' },
   ];
   const navLinks = h('nav', { class: 'nav-links', id: 'navLinks' },
-    links.map((l) => h('a', { href: l.href, class: is(l.href.slice(1)) ? 'is-active' : '' }, l.label)));
+    links.map((l) => h('a', {
+      href: l.href, class: is(l.href.slice(1)) ? 'is-active' : '',
+      on: { click: () => navLinks.classList.remove('is-open') },
+    }, l.label)));
   const toggle = h('button', {
     class: 'nav-toggle', 'aria-label': '菜单',
     on: { click: () => navLinks.classList.toggle('is-open') },

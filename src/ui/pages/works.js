@@ -35,6 +35,8 @@ export async function worksView(params, query) {
     h('span', { class: 'count' }, ''),
   ]);
   const results = h('div', {});
+  // 阶段从实际数据推导（可扩展：后台新增的阶段自动出现在筛选里）
+  const stages = [...new Set(list.map((w) => w.stage).filter(Boolean))].sort();
 
   async function renderResults(q) {
     const criteria = { ...q, type: type || q.type, publicOnly: true };
@@ -52,7 +54,7 @@ export async function worksView(params, query) {
     results.appendChild(grid);
   }
 
-  const filter = renderFilterBar({ ...query, type }, years, (newQ) => {
+  const filter = renderFilterBar({ ...query, type }, years, stages, (newQ) => {
     renderResults(newQ);
     const path = type ? `#/works/${type}` : '#/works';
     history.replaceState(null, '', path + buildQuery(newQ));

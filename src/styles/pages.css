@@ -65,7 +65,7 @@
 .cert-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s5); }
 .cert-grid .work-card__media { border-color: var(--line); }
 .cert-grid .work-card__title { font-family: var(--font-sans); font-size: 15px; font-weight: 500; }
-.cert-grid .work-card__caption { background: linear-gradient(to top, rgba(244,241,235,.92) 6%, transparent 100%); }
+.cert-grid .work-card__caption { background: rgba(244,241,235,.94); }
 
 /* —— 作品详情（大图优先） —— */
 .detail { display: grid; grid-template-columns: 1.65fr 1fr; gap: var(--s7); padding-block: var(--s6) var(--s8); align-items: start; }
@@ -111,6 +111,25 @@
 .direction-list li::before { content: ""; position: absolute; left: 0; top: 11px; width: 6px; height: 6px; background: var(--accent); }
 .award-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent-ink); font-weight: 600; margin-top: var(--s4); }
 .award-link:hover { text-decoration: underline; }
+
+/* 联系方式（极简两列，靠字号留白） */
+.resume__contact { margin-top: var(--s5); padding-top: var(--s4); border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }
+.resume__contact-row { display: flex; justify-content: space-between; gap: var(--s4); font-size: 14px; }
+.resume__contact-row .yr { color: var(--ink-3); }
+
+/* 证书：克制网格，视觉权重低于艺术作品；可点击放大 */
+.cv-cert-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s4); }
+.cv-cert { display: block; text-align: left; background: transparent; border: 0; padding: 0; cursor: pointer; }
+.cv-cert__media { aspect-ratio: 4/3; border: 1px solid var(--line); overflow: hidden; background: var(--surface-2); transition: border-color .2s ease; }
+.cv-cert:hover .cv-cert__media { border-color: var(--ink-2); }
+.cv-cert__media img, .cv-cert__media svg { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cv-cert__title { font-size: 14px; color: var(--ink-2); margin-top: 8px; line-height: 1.4; }
+.cv-cert__date { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+
+/* 灯箱（点击证书放大） */
+.lightbox { position: relative; background: var(--surface); border: 1px solid var(--line); max-width: min(720px, 92vw); max-height: 88vh; overflow: auto; padding: var(--s2); }
+.lightbox img, .lightbox svg { width: 100%; height: auto; display: block; }
+.lightbox__close { position: absolute; top: 8px; right: 8px; width: 36px; height: 36px; border: 0; border-radius: 50%; background: rgba(30,27,22,.7); color: #fff; font-size: 18px; line-height: 1; }
 
 /* —— 后台登录 —— */
 .login-wrap { min-height: calc(100vh - var(--nav-h)); display: flex; align-items: center; justify-content: center; padding: var(--s6); }
