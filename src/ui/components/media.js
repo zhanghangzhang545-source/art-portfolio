@@ -34,14 +34,12 @@ export function toImageSrc(value) {
     const pal = PALETTE[hashStr(seed) % PALETTE.length];
     const svg =
       `<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}' viewBox='0 0 ${w} ${h}'>` +
-      `<defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>` +
-      `<stop offset='0' stop-color='${pal[0]}'/><stop offset='1' stop-color='${pal[1]}'/></linearGradient></defs>` +
-      `<rect width='${w}' height='${h}' fill='url(#g)'/>` +
-      `<circle cx='${w * 0.7}' cy='${h * 0.3}' r='${w * 0.16}' fill='#ffffff' opacity='0.10'/>` +
-      `<rect x='${w * 0.12}' y='${h * 0.62}' width='${w * 0.5}' height='${w * 0.035}' rx='${w * 0.018}' fill='#ffffff' opacity='0.18'/>` +
-      `<rect x='${w * 0.12}' y='${h * 0.69}' width='${w * 0.32}' height='${w * 0.035}' rx='${w * 0.018}' fill='#ffffff' opacity='0.12'/>` +
-      `<text x='${w / 2}' y='${h * 0.5}' fill='#ffffff' opacity='0.92' font-size='${w * 0.07}' font-weight='600' font-family='system-ui,sans-serif' text-anchor='middle'>${escapeXml(label || 'Demo')}</text>` +
-      `<text x='${w / 2}' y='${h * 0.5 + w * 0.09}' fill='#ffffff' opacity='0.6' font-size='${w * 0.034}' letter-spacing='2' font-family='system-ui,sans-serif' text-anchor='middle'>DEMO 占位 · 待替换</text>` +
+      `<rect width='${w}' height='${h}' fill='${pal[0]}'/>` +
+      `<rect x='${w * 0.07}' y='${h * 0.07}' width='${w * 0.86}' height='${h * 0.86}' fill='none' stroke='${pal[1]}' stroke-opacity='0.38' stroke-width='2'/>` +
+      `<circle cx='${w * 0.5}' cy='${h * 0.4}' r='${w * 0.14}' fill='none' stroke='${pal[1]}' stroke-opacity='0.42' stroke-width='2'/>` +
+      `<line x1='${w * 0.5}' y1='${h * 0.54}' x2='${w * 0.5}' y2='${h * 0.62}' stroke='${pal[1]}' stroke-opacity='0.42' stroke-width='2'/>` +
+      `<text x='${w / 2}' y='${h * 0.5}' fill='${pal[1]}' opacity='0.85' font-size='${w * 0.066}' font-weight='600' font-family='system-ui,sans-serif' text-anchor='middle'>${escapeXml(label || 'Demo')}</text>` +
+      `<text x='${w / 2}' y='${h * 0.5 + w * 0.085}' fill='${pal[1]}' opacity='0.6' font-size='${w * 0.033}' letter-spacing='3' font-family='system-ui,sans-serif' text-anchor='middle'>DEMO 占位 · 待替换</text>` +
       `</svg>`;
     return `data:image/svg+xml,${encodeURIComponent(svg)}`;
   }

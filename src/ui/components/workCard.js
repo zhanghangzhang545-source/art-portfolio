@@ -1,23 +1,47 @@
 // ============================================================
-// workCard.js — 作品卡片（漫画跳转到阅读器，其余跳详情）
+// workCard.js — 作品卡片（无框、作品为绝对主角）
+//  · 图片按素材自然比例呈现，不裁剪到统一尺寸
+//  · 元信息默认隐藏，悬停 / 聚焦时淡入（手机端常显）
+//  · 根据横/竖/方比例与精选标记，赋予杂志式版式尺寸
 // ============================================================
 import { h } from '../../core/dom.js';
 import { imgEl } from './media.js';
 
+function aspectOf(work) {
+  const ratio = (work.cover && work.cover.ratio) || '4/5';
+  const [w, ht] = String(ratio).split('/').map(Number);
+  return w / ht;
+}
+
+/** 根据素材比例与精选标记，给出杂志式版式尺寸 class */
+export function cardSizeClass(work) {
+  const r = aspectOf(work);
+  let cls = 'work-card--tall';
+  if (r >= 1.4) cls = 'work-card--wide';
+  else if (r <= 0.86) cls = 'work-card--tall';
+  else cls = 'work-card--square';
+  // 精选的横图 / 方图作为大图跨整行，形成视觉节奏
+  if (work.featured && cls !== 'work-card--tall') cls = 'work-card--feature';
+  return cls;
+}
+
 export function workCard(work) {
   const href = work.type === 'comic' ? `#/comic/${work.id}` : `#/work/${work.id}`;
   const media = h('div', { class: 'work-card__media' }, imgEl(work.cover, null, work.title));
-  if (work.type === 'comic') media.appendChild(h('span', { class: 'work-card__badge tag tag--cat', style: { background: 'var(--cat-comic)' } }, '漫画'));
+  if (work.type === 'comic') media.appendChild(h('span', { class: 'work-card__badge tag tag--cat', style: { '--dot': 'var(--cat-comic)' } }, '漫画'));
   if (work.featured) media.appendChild(h('span', { class: 'work-card__featured tag tag--featured' }, '精选'));
 
   const metaParts = [String(work.year)];
   if (work.type === 'comic') metaParts.push(`共 ${(work.pages || []).length} 页`);
   else if (work.stage) metaParts.push(work.stage);
 
-  const body = h('div', { class: 'work-card__body' }, [
+  // 元信息容器：默认隐藏，悬停 / 聚焦显现
+  const caption = h('div', { class: 'work-card__caption' }, [
     h('div', { class: 'work-card__title' }, work.title),
     h('div', { class: 'work-card__meta' },
       metaParts.map((m, i) => (i === 0 ? h('span', {}, m) : h('span', {}, '· ' + m)))),
   ]);
-  return h('a', { class: 'work-card reveal', href }, [media, body]);
+  media.appendChild(caption);
+
+  return h('a', { class: `work-card ${cardSizeClass(work)} reveal`, href }, [media]);
 }

@@ -1,5 +1,7 @@
 // ============================================================
-// home.js — 首页（桌面/手机分别设计：不对称 hero + 画廊网格）
+// home.js — 首页（编辑 / 画册式）
+//  第一屏：艺术家姓名 + 一句身份 + 代表作品大图（明确视觉中心）
+//  向下：精选作品（杂志式不规则网格）→ 作品分类（极简索引）→ 关于预告
 // ============================================================
 import { h } from '../../core/dom.js';
 import { repo } from '../../data/services.js';
@@ -18,21 +20,23 @@ export async function homeView() {
   const counts = {};
   all.forEach((w) => (counts[w.type] = (counts[w.type] || 0) + 1));
 
-  const catTiles = WORK_TYPES.map((t) =>
-    h('a', { class: 'cat-tile', href: `#/works/${t.id}` }, [
-      h('div', { class: 'cat-tile__name' }, t.name),
-      h('div', { class: 'cat-tile__count' }, `${counts[t.id] || 0} 件作品`),
-      h('div', { class: 'cat-tile__bar', style: { background: t.color } }),
+  const catIndex = WORK_TYPES.map((t) =>
+    h('a', { href: `#/works/${t.id}` }, [
+      h('div', { class: 'cat-index__name' }, t.name),
+      h('div', { class: 'cat-index__count' }, `${counts[t.id] || 0} 件`),
+      h('div', { class: 'cat-index__bar', style: { '--cat': t.color } }),
     ]));
 
+  // —— 第一屏：明确视觉中心 ——
   const hero = h('section', { class: 'container hero' }, [
-    h('div', {}, [
-      h('div', { class: 'eyebrow hero__eyebrow' }, '插画师 · 视觉创作者'),
-      h('h1', { class: 'hero__title' }, ['以安静的笔触，', h('br', {}), '记录', h('em', {}, '光与日常'), '。']),
-      h('p', { class: 'lead hero__lead' }, '这里是插画、漫画、油画与艺术履历的集合。作品是这里唯一的主角——请慢慢看。'),
-      h('div', { class: 'hero__cta' }, [
-        h('a', { class: 'btn btn--primary', href: '#/works' }, '浏览全部作品'),
-        h('a', { class: 'btn', href: '#/about' }, '关于艺术家'),
+    h('div', { class: 'hero__text' }, [
+      h('div', { class: 'eyebrow hero__eyebrow' }, '视觉创作者 · PORTFOLIO'),
+      h('h1', { class: 'hero__title' }, ['林砚秋']),
+      h('div', { class: 'hero__ident' }, '插画 · 漫画 · 油画'),
+      h('p', { class: 'hero__lead' }, '以安静、克制的笔触，记录光与日常。这里只陈列作品本身。'),
+      h('div', { class: 'hero__links' }, [
+        h('a', { class: 'link', href: '#/works' }, ['浏览全部作品', h('span', { class: 'arrow' }, '→')]),
+        h('a', { class: 'link', href: '#/about' }, ['关于艺术家', h('span', { class: 'arrow' }, '→')]),
       ]),
     ]),
     h('div', { class: 'hero__media' }, [
@@ -41,31 +45,34 @@ export async function homeView() {
     ]),
   ]);
 
-  const featuredSec = h('section', { class: 'container section' }, [
+  // —— 精选作品（杂志式不规则网格） ——
+  const featuredSec = h('section', { class: 'container home-section' }, [
     h('div', { class: 'home-section__head' }, [
-      h('h2', {}, '精选作品'),
+      h('div', {}, [h('div', { class: 'eyebrow' }, 'SELECTED'), h('h2', {}, '精选作品')]),
       h('a', { href: '#/works?featured=1' }, '查看全部精选 →'),
     ]),
-    featured.length ? h('div', { class: 'work-grid' }, featured.slice(0, 6).map(workCard))
+    featured.length ? h('div', { class: 'mag-grid' }, featured.slice(0, 6).map(workCard))
       : emptyState('暂无精选', '可在后台将作品标记为“精选”。'),
   ]);
 
-  const catSec = h('section', { class: 'container section--tight' }, [
+  // —— 作品分类（极简文字索引） ——
+  const catSec = h('section', { class: 'container home-section' }, [
     h('div', { class: 'home-section__head' }, [
-      h('h2', {}, '作品分类'),
+      h('div', {}, [h('div', { class: 'eyebrow' }, 'INDEX'), h('h2', {}, '作品分类')]),
       h('a', { href: '#/works' }, '进入作品库 →'),
     ]),
-    h('div', { class: 'cat-strip' }, catTiles),
+    h('div', { class: 'cat-index' }, catIndex),
   ]);
 
-  const aboutSec = h('section', { class: 'container section' }, [
+  // —— 关于预告 ——
+  const aboutSec = h('section', { class: 'container home-section' }, [
     h('div', { class: 'about-teaser' }, [
-      h('div', { class: 'about-teaser__media' }, imgEl(heroArt.cover, null, '艺术家')),
+      h('div', { class: 'about-teaser__media' }, imgEl({ demo: true, seed: 'artist-portrait', ratio: '4/5', label: '艺术家照片' }, null, '艺术家照片')),
       h('div', {}, [
-        h('div', { class: 'eyebrow' }, '关于'),
-        h('h2', { class: 'display', style: { fontSize: '32px', margin: '8px 0 16px' } }, '林砚秋'),
+        h('div', { class: 'eyebrow' }, 'ABOUT'),
+        h('h2', {}, '林砚秋'),
         h('p', { class: 'lead' }, '视觉创作者，专注插画与漫画。本页为 Demo 简历内容，正式上线前替换。'),
-        h('div', { style: { marginTop: '24px' } }, h('a', { class: 'btn', href: '#/about' }, '阅读完整简历')),
+        h('div', { style: { marginTop: '24px' } }, h('a', { class: 'link', href: '#/about' }, ['阅读完整简历', h('span', { class: 'arrow' }, '→')])),
       ]),
     ]),
   ]);

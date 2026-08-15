@@ -30,11 +30,6 @@ export function renderComicReader(work, { startPage = 1 } = {}) {
   ]);
 
   const reader = h('div', { class: 'reader' }, [
-    h('div', { class: 'reader__meta' }, [
-      h('div', { class: 'eyebrow' }, '漫画 · 连续阅读'),
-      h('h1', { class: 'display', style: { fontSize: '34px', margin: '8px 0' } }, work.title),
-      h('p', { class: 'secondary' }, work.intro),
-    ]),
     progress,
     ...pageNodes,
     nav,

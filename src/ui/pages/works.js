@@ -47,8 +47,8 @@ export async function worksView(params, query) {
     }
     let grid;
     if (criteria.type === 'comic') grid = h('div', {}, data.map(comicRow));
-    else if (!criteria.type) grid = h('div', { class: 'gallery-masonry' }, data.map(workCard));
-    else grid = h('div', { class: 'work-grid' }, data.map(workCard));
+    else if (criteria.type === 'certificate') grid = h('div', { class: 'cert-grid' }, data.map(workCard));
+    else grid = h('div', { class: 'mag-grid' }, data.map(workCard));
     results.appendChild(grid);
   }
 
