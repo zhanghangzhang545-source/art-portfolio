@@ -1,0 +1,77 @@
+/* ============================================================
+   Pages — 首页 / 作品 / 详情 / 漫画阅读 / 个人介绍 / 后台
+   ============================================================ */
+
+/* —— 首页 —— */
+.hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: var(--s7); align-items: center; padding-block: var(--s8) var(--s7); }
+.hero__eyebrow { margin-bottom: var(--s4); }
+.hero__title { font-family: var(--font-display); font-size: clamp(40px, 6vw, 76px); line-height: 1.04; letter-spacing: .01em; margin-bottom: var(--s5); }
+.hero__title em { font-style: italic; color: var(--accent-ink); }
+.hero__lead { max-width: 46ch; margin-bottom: var(--s6); }
+.hero__cta { display: flex; gap: var(--s3); flex-wrap: wrap; }
+.hero__media { position: relative; }
+.hero__media .frame { aspect-ratio: 4/5; border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; background: var(--surface-2); }
+.hero__caption { position: absolute; left: 16px; bottom: 16px; }
+
+.home-section__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s4); margin-bottom: var(--s5); }
+.home-section__head h2 { font-family: var(--font-display); font-size: clamp(26px, 3vw, 36px); }
+.home-section__head a { font-size: 14px; color: var(--accent-ink); font-weight: 600; }
+
+/* 类型入口条 */
+.cat-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s4); }
+.cat-tile { display: flex; flex-direction: column; gap: var(--s2); padding: var(--s5); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); transition: border-color .2s ease, transform .12s ease; }
+.cat-tile:hover { border-color: var(--line-strong); transform: translateY(-2px); }
+.cat-tile__name { font-family: var(--font-display); font-size: 22px; }
+.cat-tile__count { font-size: 13px; color: var(--ink-3); }
+.cat-tile__bar { height: 3px; border-radius: 999px; margin-top: var(--s2); }
+
+/* 关于预告 */
+.about-teaser { display: grid; grid-template-columns: 1fr 1.4fr; gap: var(--s7); align-items: center; }
+.about-teaser__media { aspect-ratio: 1/1; border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; background: var(--surface-2); }
+
+/* —— 作品列表页 —— */
+.page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; margin-bottom: var(--s5); }
+.page-head h1 { font-family: var(--font-display); font-size: clamp(32px, 4vw, 48px); }
+.page-head .count { color: var(--ink-3); font-size: 14px; }
+
+/* —— 作品详情 —— */
+.detail { display: grid; grid-template-columns: 1fr 380px; gap: var(--s7); padding-block: var(--s7); }
+.detail__gallery { display: flex; flex-direction: column; gap: var(--s5); }
+.detail__shot { border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; background: var(--surface-2); }
+.detail__shot img, .detail__shot svg { width: 100%; height: auto; }
+.detail__aside { position: sticky; top: calc(var(--nav-h) + var(--s5)); align-self: start; }
+.detail__title { font-family: var(--font-display); font-size: 34px; margin-bottom: var(--s3); }
+.detail__meta { display: flex; flex-direction: column; gap: 10px; padding: var(--s4) 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: var(--s4) 0; }
+.detail__meta div { display: flex; justify-content: space-between; font-size: 14px; }
+.detail__meta span:first-child { color: var(--ink-3); }
+.detail__intro { color: var(--ink-2); line-height: 1.75; }
+
+/* —— 个人介绍 / 简历 —— */
+.resume { display: grid; grid-template-columns: 340px 1fr; gap: var(--s7); padding-block: var(--s7); align-items: start; }
+.resume__profile { position: sticky; top: calc(var(--nav-h) + var(--s5)); }
+.resume__avatar { aspect-ratio: 1/1; border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; background: var(--surface-2); margin-bottom: var(--s4); }
+.resume__name { font-family: var(--font-display); font-size: 32px; }
+.resume__role { color: var(--accent-ink); font-size: 14px; letter-spacing: .04em; margin-bottom: var(--s4); }
+.resume__bio { color: var(--ink-2); line-height: 1.7; }
+.resume__section { margin-bottom: var(--s7); }
+.resume__section h3 { font-family: var(--font-display); font-size: 24px; margin-bottom: var(--s4); padding-bottom: var(--s2); border-bottom: 1px solid var(--line); }
+.resume__item { display: grid; grid-template-columns: 160px 1fr; gap: var(--s4); padding: var(--s3) 0; border-bottom: 1px solid var(--line); }
+.resume__item .yr { color: var(--ink-3); font-size: 14px; }
+.resume__item h4 { font-size: 16px; font-weight: 600; }
+.resume__item p { color: var(--ink-2); font-size: 14px; }
+.skill-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.direction-list { display: flex; flex-direction: column; gap: var(--s2); }
+.direction-list li { list-style: none; padding-left: 18px; position: relative; color: var(--ink-2); }
+.direction-list li::before { content: ""; position: absolute; left: 0; top: 11px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.award-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent-ink); font-weight: 600; }
+
+/* —— 后台登录 —— */
+.login-wrap { min-height: calc(100vh - var(--nav-h)); display: flex; align-items: center; justify-content: center; padding: var(--s6); }
+.login-card { width: min(400px, 100%); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: var(--s7); box-shadow: var(--shadow-md); }
+.login-card h1 { font-family: var(--font-display); font-size: 30px; text-align: center; margin-bottom: var(--s2); }
+.login-card .sub { text-align: center; color: var(--ink-3); font-size: 14px; margin-bottom: var(--s6); }
+.login-card .form { gap: var(--s4); }
+
+/* —— 通用页眉小工具 —— */
+.toolbar { display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap; margin-bottom: var(--s5); }
+.spacer { flex: 1; }

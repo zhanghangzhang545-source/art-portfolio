@@ -1,0 +1,47 @@
+/* ============================================================
+   Design Tokens — 低饱和莫兰迪（Morandi）设计系统
+   简约 · 大气 · 成熟专业 · 作品为绝对主体
+   ============================================================ */
+:root {
+  /* —— 表面色：暖纸感，绝不用纯白/纯黑 —— */
+  --paper:        #F2EEE8;  /* 页面背景，暖米白 */
+  --surface:      #FBF9F5;  /* 卡片/面板，近白暖 */
+  --surface-2:    #ECE7DF;  /* 次级表面 */
+  --ink:          #2C2A27;  /* 主文字，暖炭灰 */
+  --ink-2:        #57534D;  /* 次级文字 */
+  --ink-3:        #8C867D;  /* 弱化/辅助文字 */
+  --line:         #E4DED4;  /* 发丝级分隔线 */
+  --line-strong:  #D6CDBE;  /* 略强分隔线 */
+
+  /* —— 单一强调色：去饱和陶土（饱和度≈33%）—— */
+  --accent:       #9C6B4F;
+  --accent-weak:  #E9DACB;
+  --accent-ink:   #6E4A35;
+
+  /* —— 作品类型色（均为低饱和莫兰迪，仅用于小标签） —— */
+  --cat-illustration: #7E8C6E;
+  --cat-comic:        #6E7E8C;
+  --cat-oil:          #B08968;
+  --cat-certificate:  #9E8088;
+
+  /* —— 字体：衬线标题 + 中性无衬线正文（系统栈，离线可用） —— */
+  --font-display: "Cormorant Garamond", "Noto Serif SC", Georgia, "Songti SC", "STSong", serif;
+  --font-sans: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* —— 间距尺度（8pt 体系） —— */
+  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
+  --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px;
+
+  /* —— 圆角：刻意偏小，拒绝统一大圆角卡片 —— */
+  --r-sm: 2px; --r-md: 4px; --r-lg: 8px;
+
+  /* —— 阴影：极轻、带暖色调，避免玻璃拟态/外发光 —— */
+  --shadow-sm: 0 1px 2px rgba(44,42,39,.05);
+  --shadow-md: 0 8px 28px rgba(44,42,39,.07);
+
+  /* —— 布局 —— */
+  --maxw: 1280px;
+  --nav-h: 68px;
+  --pad-x: clamp(20px, 5vw, 64px);
+}
