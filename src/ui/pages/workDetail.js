@@ -17,7 +17,7 @@ export async function workDetailView(params) {
   if (work.type === 'comic') { location.hash = `#/comic/${work.id}`; return h('div', {}); }
 
   // 首屏：大尺寸封面（作品为绝对主角）
-  const cover = h('div', { class: 'detail__cover' }, imgEl(work.cover, null, work.title));
+  const cover = h('div', { class: 'detail__cover' }, imgEl(work.cover, null, work.title, { w: work.coverW, h: work.coverH }));
 
   // 文字信息后置
   const meta = h('div', { class: 'detail__meta' }, [
@@ -38,7 +38,7 @@ export async function workDetailView(params) {
 
   // 多图：自然节奏（偶数张收窄居中）
   const series = h('div', { class: 'detail__series' },
-    (work.images || []).map((v, i) => h('div', { class: 'detail__shot' }, imgEl(v, null, `${work.title} ${i + 2}`))));
+    (work.images || []).map((v, i) => h('div', { class: 'detail__shot' }, imgEl(v, null, `${work.title} ${i + 2}`, { w: work.coverW, h: work.coverH }))));
 
   return h('div', { class: 'container' }, [
     h('div', { class: 'detail__top' }, h('a', { class: 'btn btn--ghost btn--sm', href: '#/works' }, '← 返回作品库')),

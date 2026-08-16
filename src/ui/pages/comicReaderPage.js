@@ -26,7 +26,7 @@ export async function comicReaderView(params, query) {
         h('span', { class: 'tag tag--accent' }, `共 ${work.pages.length} 页`),
       ]),
     ]),
-    h('div', { class: 'comic-hero__media' }, imgEl(work.cover, null, work.title)),
+    h('div', { class: 'comic-hero__media' }, imgEl(work.cover, null, work.title, { w: work.coverW, h: work.coverH })),
   ]);
 
   return h('div', { class: 'container section' }, [

@@ -54,6 +54,7 @@
 
 /* 关于预告 */
 .about-teaser { display: grid; grid-template-columns: 1fr 1.3fr; gap: var(--s7); align-items: center; }
+.about-teaser--text { grid-template-columns: 1fr; max-width: 720px; }
 .about-teaser__media { aspect-ratio: 4/5; overflow: hidden; background: var(--paper-2); }
 .about-teaser__media img, .about-teaser__media svg { width: 100%; height: 100%; object-fit: cover; }
 .about-teaser h2 { font-family: var(--font-display); font-size: clamp(30px, 3.6vw, 46px); font-weight: 500; margin: var(--s3) 0 var(--s4); }

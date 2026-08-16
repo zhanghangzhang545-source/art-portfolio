@@ -41,7 +41,7 @@ export async function homeView() {
       ]),
     ]),
     h('div', { class: 'hero__art' }, [
-      h('div', { class: 'hero__frame' }, imgEl(heroArt.cover, null, heroArt.title)),
+      h('div', { class: 'hero__frame' }, imgEl(heroArt.cover, null, heroArt.title, { eager: true, w: heroArt.coverW, h: heroArt.coverH })),
       h('div', { class: 'hero__cap' }, `${heroArt.title} · ${heroArt.year ? heroArt.year + ' · ' : ''}${typeName(heroArt.type)}`),
     ]),
   ]);
@@ -52,7 +52,7 @@ export async function homeView() {
       h('div', {}, [h('div', { class: 'eyebrow' }, 'SELECTED'), h('h2', {}, '精选作品')]),
       h('a', { href: '#/works?featured=1' }, '查看全部精选 →'),
     ]),
-    featured.length ? h('div', { class: 'mag-grid' }, featured.slice(0, 6).map((w, i) => workCard(w, i)))
+    featured.length ? h('div', { class: 'mag-grid' }, featured.slice(0, 8).map((w, i) => workCard(w, i)))
       : emptyState('暂无精选', '可在后台将作品标记为“精选”。'),
   ]);
 
@@ -65,10 +65,9 @@ export async function homeView() {
     h('div', { class: 'cat-index' }, catIndex),
   ]);
 
-  // —— 关于预告（预留肖像位，不过度用证件照） ——
+  // —— 关于预告（客户未提供正式肖像，故以纯文字版式呈现，不留占位） ——
   const aboutSec = h('section', { class: 'container home-section' }, [
-    h('div', { class: 'about-teaser' }, [
-      h('div', { class: 'about-teaser__media about-teaser__media--reserved' }, '肖像 · Portrait'),
+    h('div', { class: 'about-teaser about-teaser--text' }, [
       h('div', {}, [
         h('div', { class: 'eyebrow' }, 'ABOUT'),
         h('h2', {}, '邱钰真'),

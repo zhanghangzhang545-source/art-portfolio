@@ -15,7 +15,7 @@ export function renderComicReader(work, { startPage = 1 } = {}) {
 
   const pageNodes = pages.map((p) =>
     h('div', { class: 'reader__page', id: `reader-page-${p.order}`, dataset: { order: String(p.order) } },
-      imgEl(p.image, null, `${work.title} 第${p.order}页`)));
+      imgEl(p.image, null, `${work.title} 第${p.order}页`, { w: p.w, h: p.h })));
 
   const go = (delta) => {
     current = Math.min(Math.max(1, current + delta), total);

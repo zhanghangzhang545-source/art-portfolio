@@ -8,7 +8,7 @@ import { repo } from '../../data/services.js';
 import { imgEl } from '../components/media.js';
 
 const EDU = [
-  { yr: '2017 – 2021', h: '中国传媒大学南广学院 · 漫画与插画 学士', p: '本科阶段主修漫画叙事与插画创作，毕业设计为 42 页漫画。' },
+  { yr: '2017 – 2021', h: '中国传媒大学南广学院 · 漫画与插画 本科', p: '本科阶段主修漫画叙事与插画创作，毕业设计为 42 页漫画。' },
   { yr: '2024 – 2026', h: '日本代代木动画学院（代々木アニメーション学院）· 漫画（进修）', p: '专门学校，漫画专业进修；毕业制作（2026 年 2 月）共 27 页。' },
 ];
 
@@ -50,7 +50,7 @@ function item(yr, head, p) {
 function openLightbox(src, alt) {
   const overlay = h('div', { class: 'modal-overlay', on: { click: (e) => { if (e.target === overlay) overlay.remove(); } } },
     h('div', { class: 'lightbox', onclick: (e) => e.stopPropagation() }, [
-      imgEl(src, null, alt),
+      imgEl(src, null, alt, { w: 800, h: 1100 }),
       h('button', { class: 'lightbox__close', on: { click: () => overlay.remove() } }, '×'),
     ]));
   document.body.appendChild(overlay);
@@ -64,7 +64,7 @@ export async function aboutView() {
     ? h('div', { class: 'cv-cert-grid' },
         certs.map((c) =>
           h('button', { class: 'cv-cert', type: 'button', on: { click: () => openLightbox(c.cover, c.title) } }, [
-            h('div', { class: 'cv-cert__media' }, imgEl(c.cover, null, c.title)),
+            h('div', { class: 'cv-cert__media' }, imgEl(c.cover, null, c.title, { w: c.coverW, h: c.coverH })),
             h('div', { class: 'cv-cert__title' }, c.title),
             c.certDate ? h('div', { class: 'cv-cert__date' }, c.certDate) : null,
           ])))
@@ -80,8 +80,7 @@ export async function aboutView() {
       ]),
       h('div', { class: 'about__grid' }, [
         h('aside', { class: 'about__colophon' }, [
-          h('div', { class: 'about__avatar about__avatar--reserved' }, '肖像 · Portrait'),
-          h('p', { class: 'about__bio' }, '以插画与漫画为主要创作语言，关注城市日常、自然光景与微小叙事。'),
+          h('p', { class: 'about__bio' }, '以插画与漫画为主要创作方向，关注角色、叙事与氛围表达。'),
           h('div', { class: 'about__contact' }, CONTACT.map((c) =>
             h('div', { class: 'about__contact-row' }, [h('span', { class: 'k' }, c.k), h('span', {}, c.v)]))),
         ]),

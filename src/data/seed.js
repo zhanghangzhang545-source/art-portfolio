@@ -8,9 +8,12 @@
 
 import { ASSET } from './assets.gen.js';
 
-// 精选（首页 SELECTED 区块）：4 件插画 + 1 幅油画，编辑式呈现
-const ILLU_FEATURED = new Set(['i09', 'i01', 'i12', 'i13']); // 旅途 / 接雨草树林2.0ver / 梦里的风景 / 献上战舞
-const OIL_FEATURED = new Set(['oil1']);                       // 拐弯处的光
+// 精选（首页 SELECTED 区块）：插画 + 漫画 + 油画 混合呈现
+// 主视觉《旅途》(i09) 固定单独展示，不重复进入精选网格；精选含：
+//   插画 3（接雨草树林2.0ver / 梦里的风景 / 献上战舞）+ 油画 1（拐弯处的光）+ 漫画 2（2021 毕业设计 / 2026 代代木毕业设计）
+const ILLU_FEATURED = new Set(['i01', 'i13', 'i14']);
+const OIL_FEATURED = new Set(['oil1']);
+const COMIC_FEATURED = new Set(['comic-grad2021', 'comic-yoyogi2026']);
 
 function wrap(t) {
   return t.startsWith('《') || t.startsWith('[') ? t : `《${t}》`;
@@ -70,7 +73,7 @@ export function buildSeed() {
     {
       key: 'course2020', id: 'comic-course2020', title: wrap('漫画课程作业'),
       year: 2020, stage: '大学时期',
-      intro: '中国传媒大学南广学院 漫画与插画专业 课程作业（2020 年 4 月），含封面与封底共 20 页。',
+      intro: '中国传媒大学南广学院 漫画与插画专业 课程作业（2020 年 4 月），正文 20 页，另含封面与封底。',
       sort: 76,
     },
     {
@@ -83,7 +86,7 @@ export function buildSeed() {
       key: 'grad2021', id: 'comic-grad2021', title: wrap('毕业设计'),
       year: 2021, stage: '大学时期',
       intro: '中国传媒大学南广学院 毕业设计（2021 年 4 月），正文 1–42 页。',
-      sort: 84,
+      sort: 186,
     },
     {
       key: 'cp30', id: 'comic-cp30', title: wrap('舞机'),
@@ -95,12 +98,12 @@ export function buildSeed() {
       key: 'yoyogi2026', id: 'comic-yoyogi2026', title: wrap('毕业制作'),
       year: 2026, stage: '留学时期',
       intro: '日本代代木动画学院 漫画专业 毕业设计（2026 年 2 月），共 27 页。',
-      sort: 88,
+      sort: 188,
     },
   ];
   comics.forEach((c) => {
     const src = ASSET.comics[c.key];
-    const pages = src.pages.map((p, i) => ({ id: `${c.key}-p${i + 1}`, order: i + 1, image: p.file }));
+    const pages = src.pages.map((p, i) => ({ id: `${c.key}-p${i + 1}`, order: i + 1, image: p.file, w: p.w, h: p.h }));
     push({
       type: 'comic',
       id: c.id,
@@ -112,7 +115,7 @@ export function buildSeed() {
       date: `${c.year}-01-01`,
       sort: c.sort,
       public: true,
-      featured: false,
+      featured: COMIC_FEATURED.has(c.id),
       cover: src.cover,
       coverW: src.coverW,
       coverH: src.coverH,
