@@ -30,4 +30,4 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-server.listen(port, () => console.log(`\n  艺术作品集（Demo）运行中 →  http://localhost:${port}\n  按 Ctrl+C 停止。\n`));
+server.listen(port, () => console.log(`\n  QIU YUZHEN 艺术作品集运行中 →  http://localhost:${port}\n  按 Ctrl+C 停止。\n`));

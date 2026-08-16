@@ -1,9 +1,9 @@
 {
-  "name": "art-portfolio-demo",
+  "name": "art-portfolio-qiu-yuzhen",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "艺术创作者个人作品集网站 · Demo v1（设计系统 + 响应式 + 作品筛选 + 漫画阅读器 + 后台模拟增删改）。数据/存储走统一接口，便于后续接入正式数据库与对象存储。",
+  "description": "邱钰真 QIU YUZHEN 个人艺术作品集（插画 / 漫画 / 油画）。零依赖纯前端 SPA，数据/存储走统一接口（当前为 Mock 实现），便于后续接入正式数据库与对象存储。",
   "scripts": {
     "start": "node serve.mjs",
     "start:py": "python -m http.server 8080",
