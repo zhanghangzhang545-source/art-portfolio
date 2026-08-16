@@ -1,6 +1,7 @@
 // ============================================================
-// about.js — 个人介绍 / 编辑式履历页（邱钰真 真实简历 V2）
-//  · 01 INTRO / 02 EDUCATION / 03 EXPERIENCE·PROJECTS / 04 SKILLS / 05 HONORS
+// about.js — 个人介绍 / 编辑式履历页（邱钰真 真实简历 V3）
+//  · 桌面：左编号栏（吸顶）+ 右内容（学校 / 经历 / 技能 / 荣誉）
+//  · 手机：紧凑纵向时间线（编号并入各段标题）
 //  · 无肖像占位；全部使用真实作品与真实简历数据
 // ============================================================
 import { h } from '../../core/dom.js';
@@ -34,13 +35,11 @@ const HONORS = [
   { t: '2020 第四届吉林动画学院 24 小时国际漫画马拉松 三等奖', y: '2020' },
 ];
 
-const CONTACT = [
-  { k: '邮箱', v: '2219528116@qq.com' },
-];
+const CONTACT = [{ k: '邮箱', v: '2219528116@qq.com' }];
 
-function section(num, title, body) {
-  return h('div', { class: 'about__section reveal' }, [
-    h('h3', {}, [h('span', { class: 'about__sec-num' }, num), ' ', title]),
+function section(id, num, title, body) {
+  return h('section', { class: 'about__sec reveal', id }, [
+    h('div', { class: 'about__sec-head' }, [h('span', { class: 'about__sec-num' }, num), h('span', { class: 'about__sec-title' }, title)]),
     body,
   ]);
 }
@@ -49,6 +48,12 @@ function item(yr, head, p) {
     h('div', { class: 'cv-item__yr' }, yr),
     h('div', { class: 'cv-item__body' }, [h('h4', {}, head), p ? h('p', {}, p) : null]),
   ]);
+}
+function railLink(num, title, targetId) {
+  return h('button', {
+    class: 'about__rail-link', type: 'button',
+    on: { click: () => document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) },
+  }, [h('span', {}, num), ' ', title]);
 }
 
 /** 轻量灯箱：点击证书放大查看 */
@@ -92,25 +97,34 @@ export async function aboutView() {
         h('div', {}, [h('div', { class: 'about__stat-num' }, String(illustrations.length + oils.length)), h('div', { class: 'about__stat-label' }, '件插画与油画')]),
         h('div', {}, [h('div', { class: 'about__stat-num' }, String(certs.length)), h('div', { class: 'about__stat-label' }, '项荣誉证书')]),
       ]),
-      h('div', { class: 'about__grid' }, [
-        section('01', 'INTRO', h('div', {}, [
-          h('p', { class: 'serif-lead' }, '插画与漫画创作者'),
-          h('p', { class: 'secondary', style: { marginTop: 'var(--s4)', lineHeight: '1.8' } }, '本科毕业于中国传媒大学南广学院漫画与插画专业，后于日本代代木动画学院进修漫画。创作涵盖插画、漫画与油画，持续探索角色、叙事与氛围表达。'),
-          h('div', { class: 'about__contact', style: { marginTop: 'var(--s5)' } }, CONTACT.map((c) =>
-            h('div', { class: 'about__contact-row' }, [h('span', { class: 'k' }, c.k), h('span', {}, c.v)]))),
-        ])),
-        section('02', 'EDUCATION', h('div', {}, EDU.map((e) => item(e.yr, e.h, e.p)))),
-        section('03', 'EXPERIENCE · PROJECTS', h('div', {}, PROJECTS.map((p) => item(p.yr, p.h, p.p)))),
-        section('04', 'SKILLS', h('div', {}, [
-          h('div', { class: 'skill-list', style: { marginBottom: 'var(--s5)' } }, SKILLS.map((s) => h('span', { class: 'tag' }, s))),
-          h('ul', { class: 'direction-list' }, DIRECTIONS.map((d) => h('li', {}, d))),
-        ])),
-        section('05', 'HONORS', h('div', {}, [
-          h('div', {}, HONORS.map((a) => item(a.y, a.t, ''))),
-          h('p', { class: 'secondary', style: { margin: 'var(--s4) 0 var(--s5)' } }, '少年时期于省市级美术赛事中连续获得金奖（具体证书未随附，仅作经历说明，不作图片展示）。'),
-          h('p', { class: 'secondary', style: { marginBottom: 'var(--s4)' } }, '以下为已附证书（点击可放大查看；证书为辅助材料，视觉权重低于作品）：'),
-          certGrid,
-        ])),
+      h('div', { class: 'about__body' }, [
+        h('aside', { class: 'about__rail' }, [
+          railLink('01', 'INTRO', 'sec-intro'),
+          railLink('02', 'EDUCATION', 'sec-edu'),
+          railLink('03', 'EXPERIENCE', 'sec-exp'),
+          railLink('04', 'SKILLS', 'sec-skills'),
+          railLink('05', 'HONORS', 'sec-honors'),
+        ]),
+        h('div', { class: 'about__content' }, [
+          section('sec-intro', '01', 'INTRO', h('div', {}, [
+            h('p', { class: 'serif-lead' }, '插画与漫画创作者'),
+            h('p', { class: 'secondary', style: { marginTop: 'var(--s4)', lineHeight: '1.8' } }, '本科毕业于中国传媒大学南广学院漫画与插画专业，后于日本代代木动画学院进修漫画。创作涵盖插画、漫画与油画，持续探索角色、叙事与氛围表达。'),
+            h('div', { class: 'about__contact', style: { marginTop: 'var(--s5)' } }, CONTACT.map((c) =>
+              h('div', { class: 'about__contact-row' }, [h('span', { class: 'k' }, c.k), h('span', {}, c.v)]))),
+          ])),
+          section('sec-edu', '02', 'EDUCATION', h('div', {}, EDU.map((e) => item(e.yr, e.h, e.p)))),
+          section('sec-exp', '03', 'EXPERIENCE · PROJECTS', h('div', {}, PROJECTS.map((p) => item(p.yr, p.h, p.p)))),
+          section('sec-skills', '04', 'SKILLS', h('div', {}, [
+            h('div', { class: 'skill-list', style: { marginBottom: 'var(--s5)' } }, SKILLS.map((s) => h('span', { class: 'tag' }, s))),
+            h('ul', { class: 'direction-list' }, DIRECTIONS.map((d) => h('li', {}, d))),
+          ])),
+          section('sec-honors', '05', 'HONORS', h('div', {}, [
+            h('div', {}, HONORS.map((a) => item(a.y, a.t, ''))),
+            h('p', { class: 'secondary', style: { margin: 'var(--s4) 0 var(--s5)' } }, '少年时期于省市级美术赛事中连续获得金奖（具体证书未随附，仅作经历说明，不作图片展示）。'),
+            h('p', { class: 'secondary', style: { marginBottom: 'var(--s4)' } }, '以下为已附证书（点击可放大查看；证书为辅助材料，视觉权重低于作品）：'),
+            certGrid,
+          ])),
+        ]),
       ]),
     ]),
   ]);

@@ -1,8 +1,8 @@
 // ============================================================
 // workCard.js — 作品卡片（无框、作品为绝对主角）
-//  · 图片按素材自然比例呈现，不裁剪到统一尺寸
+//  · 图片按素材自然比例呈现，不裁剪到统一尺寸（横图横跨、竖图单列）
 //  · 图说常驻于图下（如美术馆展签：标题 + 年份·分类），不靠 hover 遮罩
-//  · 根据横/竖/方比例与精选标记，赋予杂志式版式尺寸
+//  · 在作品库网格中按真实比例赋予列宽；在精选杂志编排中可传 noSize 走自然流
 // ============================================================
 import { h } from '../../core/dom.js';
 import { imgEl } from './media.js';
@@ -15,15 +15,14 @@ function aspectOf(work) {
   return w / ht;
 }
 
-/** 根据素材比例与精选标记，给出杂志式版式尺寸 class */
+/** 根据素材比例与精选标记，给出列宽 class（用于作品库网格） */
 export function cardSizeClass(work) {
   const r = aspectOf(work);
   let cls = 'work-card--tall';
   if (r >= 1.4) cls = 'work-card--wide';
   else if (r <= 0.86) cls = 'work-card--tall';
-  else cls = 'work-card--square';
-  // 精选的横图 / 方图作为大图跨整行，形成视觉节奏
-  if (work.featured && cls !== 'work-card--tall') cls = 'work-card--feature';
+  else cls = 'work-card--sq';
+  if (work.featured && cls !== 'work-card--tall') cls = `work-card--feature ${cls}`;
   return cls;
 }
 
@@ -31,7 +30,7 @@ export function cardSizeClass(work) {
  * 作品卡片
  * @param {Work} work
  * @param {number} [i]
- * @param {{sizeClass?:string, noReveal?:boolean}} [opts]
+ * @param {{sizeClass?:string, noSize?:boolean, noReveal?:boolean}} [opts]
  */
 export function workCard(work, i = 0, opts = {}) {
   const href = work.type === 'comic' ? `#/comic/${work.id}` : `#/work/${work.id}`;
@@ -47,6 +46,7 @@ export function workCard(work, i = 0, opts = {}) {
     h('span', { class: 'work-card__sub' }, sub),
   ]);
 
-  const cls = ['work-card', opts.sizeClass || cardSizeClass(work), opts.noReveal ? '' : 'reveal'].filter(Boolean).join(' ');
+  const sizeCls = opts.noSize ? '' : (opts.sizeClass || cardSizeClass(work));
+  const cls = ['work-card', sizeCls, opts.noReveal ? '' : 'reveal'].filter(Boolean).join(' ');
   return h('a', { class: cls, href }, [media, cap]);
 }

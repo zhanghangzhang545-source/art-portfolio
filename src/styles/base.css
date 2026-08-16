@@ -1,5 +1,7 @@
 /* ============================================================
-   Base — reset + 排版 + 通用原语
+   Base — reset + 排版 + 通用原语（V3）
+   设计原则：section 按内容自然增长，不再使用超大固定 min-height；
+   留白服务于内容节奏，而非空旷。
    ============================================================ */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
@@ -23,14 +25,6 @@ p { margin: 0; }
 /* —— 衬线标题，营造编辑 / 画廊气质 —— */
 .display, h1.display { font-family: var(--font-display); font-weight: 500; letter-spacing: .005em; }
 .serif { font-family: var(--font-display); }
-.display-huge {
-  font-family: var(--font-display); font-weight: 500; line-height: .9; letter-spacing: .005em;
-  font-size: clamp(64px, 10vw, 168px);
-}
-.display-xl {
-  font-family: var(--font-display); font-weight: 500; line-height: .95; letter-spacing: .005em;
-  font-size: clamp(48px, 7vw, 112px);
-}
 
 /* —— 编辑式小编号 / 索引（如 01 / 05） —— */
 .idx {
@@ -39,21 +33,10 @@ p { margin: 0; }
 }
 .idx--dark { color: var(--ink-on-dark-2); }
 
-/* —— 滚动提示 —— */
-.scroll-hint {
-  display: inline-flex; flex-direction: column; align-items: center; gap: 8px;
-  font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--ink-on-dark-2);
-}
-.scroll-hint::after {
-  content: ""; width: 1px; height: 36px; background: currentColor; opacity: .5;
-  animation: scroll-line 1.8s ease-in-out infinite;
-}
-@keyframes scroll-line { 0%,100% { transform: scaleY(1); transform-origin: top; } 50% { transform: scaleY(.4); transform-origin: top; } }
-
 /* —— 容器 —— */
 .container { width: 100%; max-width: var(--maxw); margin: 0 auto; padding-inline: var(--pad-x); }
 .container--wide { max-width: var(--maxw-wide); }
-.section { padding-block: var(--s9); }
+.section { padding-block: var(--s8); }
 .section--tight { padding-block: var(--s7); }
 .section--dark { background: var(--espresso); color: var(--ink-on-dark); }
 .section--dark .eyebrow { color: var(--ink-on-dark-2); }
@@ -64,7 +47,6 @@ p { margin: 0; }
 .muted { color: var(--ink-3); }
 .secondary { color: var(--ink-2); }
 
-/* eyebrow / kicker：极小、字距拉开的小标，编辑式 */
 .eyebrow {
   font-family: var(--font-sans);
   font-size: 12px; letter-spacing: .26em; text-transform: uppercase;
@@ -83,6 +65,8 @@ p { margin: 0; }
 .link:hover { color: var(--caramel); border-color: var(--caramel); }
 .link .arrow { transition: transform .2s ease; font-size: 1.05em; }
 .link:hover .arrow { transform: translateX(3px); }
+.link--light { color: var(--ink-on-dark); border-color: var(--line-dark); }
+.link--light:hover { color: var(--caramel); border-color: var(--caramel); }
 
 /* —— 按钮（克制，发丝边，无大圆角） —— */
 .btn {
