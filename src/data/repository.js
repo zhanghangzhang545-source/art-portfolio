@@ -21,7 +21,7 @@ export class WorkRepository {
   async resetDemo() { throw new Error('not implemented'); }
 }
 
-const STORE_KEY = 'portfolio.works.v1';
+const STORE_KEY = 'portfolio.works.v2';
 
 export class MockWorkRepository extends WorkRepository {
   constructor() {
@@ -73,14 +73,17 @@ export class MockWorkRepository extends WorkRepository {
         (w.intro || '').toLowerCase().includes(q) ||
         (w.tags || []).some((t) => t.toLowerCase().includes(q)));
     }
-    const sort = criteria.sort || 'newest';
+    const sort = criteria.sort || 'manual';
     list.sort((a, b) => {
       switch (sort) {
-        case 'oldest': return a.year - b.year;
+        case 'oldest': return (a.year || 0) - (b.year || 0);
         case 'sort-asc': return a.sort - b.sort;
         case 'sort-desc': return b.sort - a.sort;
-        case 'newest':
-        default: return b.year - a.year;
+        case 'manual':
+        default:
+          // 编辑精选：精选优先，其次按自定义排序（质量 + 年份综合）
+          if (a.featured !== b.featured) return a.featured ? -1 : 1;
+          return (b.sort || 0) - (a.sort || 0);
       }
     });
     return this._clone(list);

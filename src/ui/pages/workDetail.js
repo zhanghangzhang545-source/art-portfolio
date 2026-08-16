@@ -22,7 +22,7 @@ export async function workDetailView(params) {
   // 文字信息后置
   const meta = h('div', { class: 'detail__meta' }, [
     metaRow('类型', typeName(work.type)),
-    metaRow('创作年份', String(work.year)),
+    metaRow('创作年份', work.year ? String(work.year) : '—'),
     work.stage ? metaRow('创作阶段', work.stage) : null,
     metaRow('状态', work.public === false ? '未公开' : '已公开' + (work.featured ? ' · 精选' : '')),
     work.type === 'certificate' ? metaRow('颁发机构', work.issuer || '—') : null,

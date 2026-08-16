@@ -9,6 +9,7 @@ import { imgEl } from './media.js';
 import { typeName } from '../../data/types.js';
 
 function aspectOf(work) {
+  if (work.coverW && work.coverH) return work.coverW / work.coverH;
   const ratio = (work.cover && work.cover.ratio) || '4/5';
   const [w, ht] = String(ratio).split('/').map(Number);
   return w / ht;
@@ -32,7 +33,7 @@ export function workCard(work, i = 0) {
   if (work.type === 'comic') media.appendChild(h('span', { class: 'work-card__badge tag tag--cat', style: { '--dot': 'var(--cat-comic)' } }, '漫画'));
   if (work.featured) media.appendChild(h('span', { class: 'work-card__featured tag tag--featured' }, '精选'));
 
-  const sub = [String(work.year), typeName(work.type)].filter(Boolean).join(' · ');
+  const sub = [work.year ? String(work.year) : '', typeName(work.type)].filter(Boolean).join(' · ');
 
   // 图说：常驻于图下，克制如展签
   const cap = h('div', { class: 'work-card__cap' }, [

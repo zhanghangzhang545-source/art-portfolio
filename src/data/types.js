@@ -35,12 +35,14 @@ export const WORK_TYPES = [
   { id: 'illustration', name: '插画',   en: 'Illustration', color: 'var(--cat-illustration)' },
   { id: 'comic',        name: '漫画',   en: 'Comic',        color: 'var(--cat-comic)' },
   { id: 'oil',          name: '油画',   en: 'Oil Painting', color: 'var(--cat-oil)' },
-  { id: 'certificate',  name: '证书',   en: 'Certificate',  color: 'var(--cat-certificate)' },
 ];
 
-export const STAGES = ['学校时期', '职业早期', '成熟期', '近期创作'];
+// 阶段：依据客户真实教育/创作经历；无依据不填
+export const STAGES = ['大学时期', '留学时期', '个人创作'];
 
+// 默认「编辑精选」= 精选优先 + 自定义排序（质量 + 年份综合）
 export const SORT_OPTIONS = [
+  { id: 'manual',    name: '编辑精选' },
   { id: 'newest',    name: '最新创作' },
   { id: 'oldest',    name: '最早创作' },
   { id: 'sort-asc',  name: '自定义升序' },

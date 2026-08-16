@@ -1,86 +1,146 @@
 // ============================================================
-// seed.js — Demo 演示数据（占位示意，上线前整体替换）
-//   12 插画 · 4 漫画（各含多页）· 2 油画 · 8 证书
-// 图片均以 Demo 描述符存储，由 UI 层渲染为带“DEMO 占位”标识的占位图。
+// seed.js — 邱钰真（QIU YUZHEN）真实作品数据 · 客户12 正式版
+// 图片路径来自 assets.gen.js（真实素材优化版，已排除敏感水印/副本页）
+// 严禁虚构：标题 / 年份 / 阶段 / 页数 均依据客户提供的真实资料。
+// 插画与油画逐件年份客户未提供 → 留空（year: null），不推测。
+// 证书 public:false → 不进入公开作品库，仅在「关于」荣誉区展示。
 // ============================================================
 
-const d = (seed, ratio, label) => ({ demo: true, seed, ratio, label });
+import { ASSET } from './assets.gen.js';
+
+// 精选（首页 SELECTED 区块）：4 件插画 + 1 幅油画，编辑式呈现
+const ILLU_FEATURED = new Set(['i09', 'i01', 'i12', 'i13']); // 旅途 / 接雨草树林2.0ver / 梦里的风景 / 献上战舞
+const OIL_FEATURED = new Set(['oil1']);                       // 拐弯处的光
+
+function wrap(t) {
+  return t.startsWith('《') || t.startsWith('[') ? t : `《${t}》`;
+}
 
 export function buildSeed() {
   const works = [];
   let n = 0;
   const push = (w) => { w.id = w.id || `w${(++n).toString().padStart(3, '0')}`; works.push(w); };
 
-  // —— 12 插画 ——
-  const illus = [
-    { title: '《雾屿晨光》', year: 2019, stage: '职业早期', tags: ['风景', '水彩'], ratio: '4/5', featured: true,  intro: '清晨薄雾里若隐若现的礁岛，是这组海景练习的第一张。' },
-    { title: '《拾穗的午后》', year: 2017, stage: '学校时期', tags: ['人物', '速写'], ratio: '3/4', featured: false, intro: '田间速写课上的作业，线条还带着生涩的痕迹。' },
-    { title: '《第七页》',     year: 2021, stage: '成熟期',   tags: ['叙事', '黑白'], ratio: '1/1', featured: false, intro: '为一篇短篇小说所作的扉页插图，尝试纯黑白语言。' },
-    { title: '《候鸟》',       year: 2020, stage: '职业早期', tags: ['自然', '水彩'], ratio: '4/5', featured: true,  intro: '关于迁徙与归处的意象，蓝绿色调里藏着一点暖。' },
-    { title: '《旧书店》',     year: 2018, stage: '学校时期', tags: ['场景', '钢笔'], ratio: '3/4', featured: false, intro: '钢笔淡彩，记录巷尾那家快要关门的书店。' },
-    { title: '《潮汐表》',     year: 2022, stage: '成熟期',   tags: ['概念', '蓝调'], ratio: '16/9', featured: false, intro: '为海洋主题展览创作的概念图，节奏来自潮汐线。' },
-    { title: '《无题·红》',    year: 2023, stage: '近期创作', tags: ['抽象'],         ratio: '1/1', featured: false, intro: '实验性的色块练习，暂不公开，留作自我对照。', pub: false },
-    { title: '《巷口》',       year: 2016, stage: '学校时期', tags: ['街景', '水彩'], ratio: '4/5', featured: false, intro: '第一张被老师贴到走廊的写生作业。' },
-    { title: '《猫与午后》',   year: 2021, stage: '成熟期',   tags: ['动物', '治愈'], ratio: '3/4', featured: false, intro: '窗台上的橘猫，属于“日常小确幸”系列。' },
-    { title: '《山外山》',     year: 2024, stage: '近期创作', tags: ['风景', '大幅'], ratio: '4/5', featured: true,  intro: '近期大幅创作，试图把层叠的山势画成呼吸的节奏。' },
-    { title: '《镜中人》',     year: 2022, stage: '成熟期',   tags: ['人物', '肖像'], ratio: '1/1', featured: false, intro: '自画像练习，光线来自左侧的一盏台灯。' },
-    { title: '《雪落无声》',   year: 2025, stage: '近期创作', tags: ['风景', '冬'],   ratio: '16/9', featured: false, intro: '今年初雪后的写生，几乎全靠冷灰与留白。' },
-  ];
-  illus.forEach((it, i) => push({
-    type: 'illustration', title: it.title, intro: it.intro, year: it.year, stage: it.stage, tags: it.tags,
-    date: `${it.year}-${String((i % 12) + 1).padStart(2, '0')}-15`,
-    sort: i + 1, public: it.pub !== false, featured: !!it.featured,
-    cover: d(`ill-${i}`, it.ratio, it.title),
-    images: [it.ratio, '3/4', '1/1'].map((r, k) => d(`ill-${i}-${k}`, r, it.title)),
-  }));
-
-  // —— 4 漫画（一部漫画 = 一个作品，含多页） ——
-  const comics = [
-    { title: '《长夜行》',     year: 2020, stage: '职业早期', tags: ['奇幻', '长篇'], pages: 8,  featured: false, intro: '少年在永夜之城寻找黎明，第一部长篇连载。' },
-    { title: '《街角面包店》', year: 2022, stage: '成熟期',   tags: ['日常', '治愈'], pages: 6,  featured: true,  intro: '一家小面包店与街坊们的温柔日常。' },
-    { title: '《十三月的雨》', year: 2023, stage: '近期创作', tags: ['青春', '情感'], pages: 10, featured: true,  intro: '关于错过与重逢的青春物语，目前连载中。' },
-    { title: '《机械之心》',   year: 2021, stage: '成熟期',   tags: ['科幻', '动作'], pages: 7,  featured: false, intro: '废土背景下的机甲冒险，暂作内部打磨。', pub: false },
-  ];
-  comics.forEach((c, i) => {
-    const pages = [];
-    for (let p = 0; p < c.pages; p++) {
-      pages.push({ id: `c${i}-p${p}`, order: p + 1, image: d(`comic-${i}-${p}`, '3/4', `${c.title} · 第${p + 1}页`) });
-    }
+  // —— 插画（18 件，真实素材；年份/阶段未逐件提供，留空不虚构） ——
+  ASSET.illustrations.forEach((a) => {
+    const featured = ILLU_FEATURED.has(a.id);
     push({
-      type: 'comic', title: c.title, intro: c.intro, year: c.year, stage: c.stage, tags: c.tags,
-      date: `${c.year}-0${i + 1}-10`, sort: i + 1, public: c.pub !== false, featured: !!c.featured,
-      cover: d(`comic-${i}-cover`, '3/4', c.title), pages,
+      type: 'illustration',
+      id: a.id,
+      title: wrap(a.title),
+      intro: '',
+      year: null,
+      stage: '',
+      tags: [],
+      date: '',
+      sort: featured ? 200 - [...ILLU_FEATURED].indexOf(a.id) * 2 : 60 + n,
+      public: true,
+      featured,
+      cover: a.file,
+      coverW: a.w,
+      coverH: a.h,
+      images: [a.file],
     });
   });
 
-  // —— 2 油画 ——
-  const oils = [
-    { title: '《静物·陶与光》', year: 2019, stage: '职业早期', tags: ['静物', '光影'], ratio: '4/5', featured: false, intro: '布面油画，练习单一光源下的陶器体积。' },
-    { title: '《黄昏的港口》',   year: 2023, stage: '近期创作', tags: ['风景', '油画'], ratio: '16/9', featured: true,  intro: '布面油画，记录渔船归港前那十分钟的金红。' },
-  ];
-  oils.forEach((o, i) => push({
-    type: 'oil', title: o.title, intro: o.intro, year: o.year, stage: o.stage, tags: o.tags,
-    date: `${o.year}-0${i + 3}-20`, sort: i + 1, public: true, featured: !!o.featured,
-    cover: d(`oil-${i}`, o.ratio, o.title),
-    images: [o.ratio, '4/5'].map((r, k) => d(`oil-${i}-${k}`, r, o.title)),
-  }));
+  // —— 油画（2 幅；年份客户要求不推测 → 留空） ——
+  ASSET.oils.forEach((o, i) => {
+    const featured = OIL_FEATURED.has(o.id);
+    push({
+      type: 'oil',
+      id: o.id,
+      title: wrap(o.title),
+      intro: '',
+      year: null,
+      stage: '',
+      tags: ['油画'],
+      date: '',
+      sort: featured ? 190 : 55 - i,
+      public: true,
+      featured,
+      cover: o.file,
+      coverW: o.w,
+      coverH: o.h,
+      images: [o.file],
+    });
+  });
 
-  // —— 8 证书 ——
-  const certs = [
-    { title: '学院年度创作金奖',       issuer: '某美术学院',     certDate: '2018-06-20', year: 2018, featured: false },
-    { title: '全国插画双年展 入选',     issuer: '中国插画协会',   certDate: '2020-09-12', year: 2020, featured: false },
-    { title: '商业插画师认证',         issuer: '某设计联盟',     certDate: '2021-03-05', year: 2021, featured: false },
-    { title: '漫画新人奖 优胜',         issuer: '某漫画周刊',     certDate: '2022-11-18', year: 2022, featured: true },
-    { title: '个人画展《在场》参展证明', issuer: '某美术馆',       certDate: '2023-05-09', year: 2023, featured: false },
-    { title: '数字绘画高级证书',       issuer: '某艺术学院',     certDate: '2021-07-22', year: 2021, featured: false },
-    { title: '国际绘本大赛 提名',       issuer: '某童书基金会',   certDate: '2024-02-14', year: 2024, featured: false },
-    { title: '艺术驻留项目 完成证',     issuer: '某艺术中心',     certDate: '2025-04-30', year: 2025, featured: false },
+  // —— 漫画（5 部，一部 = 一个作品；页数/年份/阶段均依据真实资料） ——
+  const comics = [
+    {
+      key: 'course2020', id: 'comic-course2020', title: wrap('漫画课程作业'),
+      year: 2020, stage: '大学时期',
+      intro: '中国传媒大学南广学院 漫画与插画专业 课程作业（2020 年 4 月），含封面与封底共 20 页。',
+      sort: 76,
+    },
+    {
+      key: 'marathon2020', id: 'comic-marathon2020', title: wrap('24 小时漫画马拉松'),
+      year: 2020, stage: '大学时期',
+      intro: '第四届吉林动画学院 24 小时国际漫画马拉松 参赛作品（2020 年 12 月），共 8 页；获三等奖。',
+      sort: 72,
+    },
+    {
+      key: 'grad2021', id: 'comic-grad2021', title: wrap('毕业设计'),
+      year: 2021, stage: '大学时期',
+      intro: '中国传媒大学南广学院 毕业设计（2021 年 4 月），正文 1–42 页。',
+      sort: 84,
+    },
+    {
+      key: 'cp30', id: 'comic-cp30', title: wrap('舞机'),
+      year: 2024, stage: '个人创作',
+      intro: 'CP30 同人志创作（2024 年 10 月），正文 13 页。本作为同人志（Fan Work），不拥有原作 IP，仅作个人创作展示。',
+      sort: 80,
+    },
+    {
+      key: 'yoyogi2026', id: 'comic-yoyogi2026', title: wrap('毕业制作'),
+      year: 2026, stage: '留学时期',
+      intro: '日本代代木动画学院 漫画专业 毕业设计（2026 年 2 月），共 27 页。',
+      sort: 88,
+    },
   ];
-  certs.forEach((c, i) => push({
-    type: 'certificate', title: c.title, intro: `由 ${c.issuer} 颁发。`, year: c.year, stage: '',
-    tags: ['证书'], date: c.certDate, sort: i + 1, public: true, featured: !!c.featured,
-    cover: d(`cert-${i}`, '3/4', c.title), issuer: c.issuer, certDate: c.certDate,
-  }));
+  comics.forEach((c) => {
+    const src = ASSET.comics[c.key];
+    const pages = src.pages.map((p, i) => ({ id: `${c.key}-p${i + 1}`, order: i + 1, image: p.file }));
+    push({
+      type: 'comic',
+      id: c.id,
+      title: c.title,
+      intro: c.intro,
+      year: c.year,
+      stage: c.stage,
+      tags: ['漫画'],
+      date: `${c.year}-01-01`,
+      sort: c.sort,
+      public: true,
+      featured: false,
+      cover: src.cover,
+      coverW: src.coverW,
+      coverH: src.coverH,
+      pages,
+    });
+  });
+
+  // —— 证书（7 张真实荣誉；仅用于「关于」荣誉展示，不进入公开作品库） ——
+  ASSET.certs.forEach((c, i) => {
+    push({
+      type: 'certificate',
+      id: `cert-${c.id}`,
+      title: c.title,
+      intro: '',
+      year: null,
+      stage: '',
+      tags: ['证书'],
+      date: '',
+      sort: 10 + i,
+      public: false, // 隐藏于公开 Works，仅在 About 展示
+      featured: false,
+      cover: c.file,
+      coverW: c.w,
+      coverH: c.h,
+      issuer: '',
+      certDate: '',
+    });
+  });
 
   return works;
 }

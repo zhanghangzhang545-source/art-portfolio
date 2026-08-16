@@ -17,7 +17,7 @@ function comicRow(work) {
     h('div', { class: 'comic-row__cover' }, imgEl(work.cover, null, work.title)),
     h('div', {}, [
       h('div', { class: 'comic-row__title' }, work.title),
-      h('div', { class: 'comic-row__meta' }, [String(work.year), work.stage ? '· ' + work.stage : null].filter(Boolean).join(' ')),
+      h('div', { class: 'comic-row__meta' }, [work.year ? String(work.year) : '', work.stage ? '· ' + work.stage : null].filter(Boolean).join(' ')),
       work.intro ? h('p', { class: 'comic-row__intro' }, work.intro) : null,
     ]),
     h('div', { class: 'comic-row__pages' }, `共 ${work.pages.length} 页 →`),
@@ -27,7 +27,7 @@ function comicRow(work) {
 export async function worksView(params, query) {
   const type = params.type || query.type || '';
   const list = await repo.list();
-  const years = [...new Set(list.map((w) => w.year))].sort((a, b) => b - a);
+  const years = [...new Set(list.map((w) => w.year).filter((y) => y != null && y !== ''))].sort((a, b) => b - a);
 
   const page = h('div', { class: 'container section' });
   const head = h('div', { class: 'page-head' }, [
@@ -41,6 +41,10 @@ export async function worksView(params, query) {
   async function renderResults(q) {
     const criteria = { ...q, type: type || q.type, publicOnly: true };
     const data = await repo.filter(criteria);
+    // 证书仅展示于「关于」，不进入公开作品库
+    if (!criteria.type) {
+      for (let i = data.length - 1; i >= 0; i--) if (data[i].type === 'certificate') data.splice(i, 1);
+    }
     head.querySelector('.count').textContent = `共 ${data.length} 件`;
     results.innerHTML = '';
     if (!data.length) {

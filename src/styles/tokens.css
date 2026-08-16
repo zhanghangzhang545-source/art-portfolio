@@ -4,43 +4,44 @@
    作品为绝对视觉主角 · 拒绝模板感与满屏棕色
    ============================================================ */
 :root {
-  /* —— 表面：暖纸感；espresso 仅用于极少数强调区块（页脚/暗场） —— */
-  --paper:        #F6F1E7;  /* 页面主背景，暖白 */
-  --paper-2:      #EFE7D8;  /* 次级表面 / 区段底色 */
-  --paper-3:      #E8DFCD;  /* 更深的米色块 */
-  --espresso:     #211B14;  /* 深咖啡黑，用于暗场区块 */
+  /* —— 表面：暖纸感（客户指定美拉德基底） —— */
+  --paper:        #F5F0E9;  /* 页面主背景，暖白 */
+  --paper-2:      #EDE4D9;  /* 次级表面 / 区段底色 */
+  --paper-3:      #E5D9C8;  /* 更深的米色块 */
+  --espresso:     #221D17;  /* 深咖啡黑，用于暗场区块（页脚） */
   --espresso-2:   #2C241B;
 
-  /* —— 文字：深炭黑为主，保证对比，不整体灰蒙蒙 —— */
-  --ink:          #211C16;  /* 主文字，深炭黑（暖） */
-  --ink-2:        #4F463B;  /* 次级文字 */
-  --ink-3:        #8A7E6E;  /* 弱化/辅助文字（仍清晰可读，偏灰褐） */
-  --ink-on-dark:  #EFE7D8;  /* 暗场上的文字 */
+  /* —— 文字：Primary Text #29241F 为主，保证对比，不整体灰蒙蒙 —— */
+  --ink:          #29241F;  /* 主文字，深炭黑（暖） */
+  --ink-2:        #4A4138;  /* 次级文字 */
+  --ink-3:        #8B8177;  /* 弱化/辅助文字（Muted，仍清晰可读） */
+  --ink-on-dark:  #EDE4D9;  /* 暗场上的文字 */
   --ink-on-dark-2:#B6A88F;
 
   /* —— 发丝级分隔线 —— */
-  --line:         #E4DBCA;
-  --line-strong:  #D2C5AD;
-  --line-dark:    rgba(239,231,216,.16);
+  --line:         #E5DAC9;
+  --line-strong:  #D6C7B2;
+  --line-dark:    rgba(237,228,217,.16);
 
   /* —— 美拉德辅助色（少量使用，不铺满） —— */
-  --coffee:       #4A3526;  /* 咖啡棕，最重 */
-  --caramel:      #B07D4C;  /* 焦糖棕，单一强调色 */
+  --coffee:       #76513B;  /* Primary Brown，最重 */
+  --caramel:      #A77755;  /* Caramel，单一强调色 */
   --caramel-weak: #EAD9C4;  /* 焦糖的极浅底 */
-  --taupe:        #9C8A74;  /* 灰褐 */
-  --khaki:        #B6A682;  /* 卡其 */
+  --taupe:        #9A8A7A;  /* 灰褐 */
+  --khaki:        #C2AE97;  /* 卡其 */
+  --sand:         #D8C5B3;  /* Sand，浅暖辅助 */
 
   /* —— 分类色点（去饱和，仅极小色点） —— */
-  --cat-illustration: #9C8A74;
+  --cat-illustration: #9A8A7A;
   --cat-comic:        #8C8470;
   --cat-oil:          #A6856A;
   --cat-certificate:  #9A8B86;
 
-  /* —— 字体：拉丁衬线 Fraunces（带光学轴，温暖有性格）+ 中文衬线 Noto Serif SC
-        正文用 Manrope（干净现代）+ 系统中文无衬线兜底 —— */
-  --font-display: "Fraunces", "Noto Serif SC", "Songti SC", "STSong", Georgia, "Times New Roman", "SimSun", serif;
-  --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-  --font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  /* —— 字体：不依赖外部字体（国内不稳定）。
+        大标题用系统宋体 / Serif 栈；正文用系统黑体 / Sans 栈 —— */
+  --font-display: "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC", "Source Han Serif SC", Georgia, "Times New Roman", serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC", "Heiti SC", sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
   /* —— 间距尺度（8pt 体系，放大呼吸感） —— */
   --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;

@@ -19,7 +19,7 @@ export function renderFilterBar(query, years, stages, onChange) {
     q: query.q || '',
     stage: query.stage || '',
     year: query.year || '',
-    sort: query.sort || 'newest',
+    sort: query.sort || 'manual',
   };
 
   const emit = () => onChange({ ...state });

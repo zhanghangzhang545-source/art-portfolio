@@ -22,7 +22,7 @@ export async function comicReaderView(params, query) {
       h('p', { class: 'comic-hero__intro' }, work.intro),
       h('div', { style: { display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' } }, [
         catTag('comic'),
-        h('span', { class: 'tag' }, `${work.year} · ${work.stage || ''}`),
+        h('span', { class: 'tag' }, `${work.year ? work.year + ' · ' : ''}${work.stage || ''}`),
         h('span', { class: 'tag tag--accent' }, `共 ${work.pages.length} 页`),
       ]),
     ]),
