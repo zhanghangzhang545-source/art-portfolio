@@ -27,7 +27,13 @@ export function cardSizeClass(work) {
   return cls;
 }
 
-export function workCard(work, i = 0) {
+/**
+ * 作品卡片
+ * @param {Work} work
+ * @param {number} [i]
+ * @param {{sizeClass?:string, noReveal?:boolean}} [opts]
+ */
+export function workCard(work, i = 0, opts = {}) {
   const href = work.type === 'comic' ? `#/comic/${work.id}` : `#/work/${work.id}`;
   const media = h('div', { class: 'work-card__media' }, imgEl(work.cover, null, work.title, { w: work.coverW, h: work.coverH }));
   if (work.type === 'comic') media.appendChild(h('span', { class: 'work-card__badge tag tag--cat', style: { '--dot': 'var(--cat-comic)' } }, '漫画'));
@@ -41,5 +47,6 @@ export function workCard(work, i = 0) {
     h('span', { class: 'work-card__sub' }, sub),
   ]);
 
-  return h('a', { class: `work-card ${cardSizeClass(work)} reveal`, href }, [media, cap]);
+  const cls = ['work-card', opts.sizeClass || cardSizeClass(work), opts.noReveal ? '' : 'reveal'].filter(Boolean).join(' ');
+  return h('a', { class: cls, href }, [media, cap]);
 }

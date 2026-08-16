@@ -2,31 +2,72 @@
    Pages — 首页 / 作品 / 详情 / 漫画阅读 / 个人介绍 / 后台
    ============================================================ */
 
-/* —— 首页 · 第一屏（大尺寸代表作品为主视觉；姓名/身份/一句介绍克制组合） —— */
+/* —— 首页 · 第一屏：深色全幅主视觉，作品占 65-75% 面积 —— */
 .hero {
-  display: grid; grid-template-columns: 0.92fr 1.08fr; gap: var(--s8);
-  align-items: center; min-height: calc(100vh - var(--nav-h));
-  padding-block: var(--s7);
+  position: relative;
+  min-height: 92vh;
+  display: flex; align-items: stretch;
+  color: var(--ink-on-dark);
+  overflow: hidden;
+  background: var(--ink); /* 兜底 */
 }
-.hero__intro { max-width: 36ch; }
-.hero__eyebrow { margin-bottom: var(--s5); }
+.hero__bg {
+  position: absolute; inset: 0; z-index: 0;
+  display: flex; justify-content: flex-end;
+}
+.hero__bg img, .hero__bg svg {
+  width: 72%; height: 100%; object-fit: cover; object-position: center center;
+}
+.hero__shade {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(90deg,
+    rgba(41,36,31,.98) 0%,
+    rgba(41,36,31,.92) 28%,
+    rgba(41,36,31,.55) 52%,
+    rgba(41,36,31,.18) 70%,
+    rgba(41,36,31,.05) 100%);
+}
+.hero__inner {
+  position: relative; z-index: 2;
+  flex: 1; display: flex; align-items: center;
+  padding-block: calc(var(--nav-h) + var(--s5)) var(--s6);
+}
+.hero__side { max-width: 46ch; }
+.hero__kicker {
+  display: flex; align-items: center; gap: var(--s4); margin-bottom: var(--s6);
+}
+.hero__eyebrow { font-size: 12px; letter-spacing: .26em; text-transform: uppercase; color: var(--ink-on-dark-2); font-weight: 600; }
 .hero__name {
-  font-family: var(--font-display); font-weight: 500;
-  font-size: clamp(56px, 8vw, 124px); line-height: .96; letter-spacing: .005em;
+  font-family: var(--font-display); font-weight: 500; line-height: .86; letter-spacing: .005em;
+  font-size: clamp(72px, 11vw, 180px);
 }
-.hero__role { font-size: 13px; letter-spacing: .24em; text-transform: uppercase; color: var(--ink-3); margin-top: var(--s4); }
-.hero__en { font-family: var(--font-sans); font-size: 14px; letter-spacing: .28em; text-transform: uppercase; color: var(--ink-3); margin-top: var(--s2); }
-.hero__lead { font-family: var(--font-display); font-style: italic; font-size: clamp(20px, 2.3vw, 28px); line-height: 1.5; color: var(--ink-2); margin-top: var(--s5); max-width: 28ch; }
-.hero__links { margin-top: var(--s6); }
-.hero__art { position: relative; }
-.hero__frame { width: 100%; background: var(--paper-2); overflow: hidden; }
-.hero__frame img, .hero__frame svg { width: 100%; height: auto; display: block; }
-.hero__caption { position: absolute; left: 14px; bottom: 14px; }
-.hero__cap {
-  margin-top: var(--s3); font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
-  color: var(--ink-3); display: flex; align-items: center; gap: 12px;
+.hero__name span { display: block; }
+.hero__cn {
+  font-family: var(--font-display); font-size: clamp(28px, 3.4vw, 42px); font-weight: 500;
+  margin-top: var(--s4); color: var(--ink-on-dark);
 }
-.hero__cap::before { content: ""; width: 30px; height: 1px; background: var(--line-strong); }
+.hero__role {
+  font-size: 13px; letter-spacing: .24em; text-transform: uppercase;
+  color: var(--ink-on-dark-2); margin-top: var(--s5);
+}
+.hero__lead {
+  font-family: var(--font-sans); font-size: clamp(16px, 1.5vw, 19px); line-height: 1.75;
+  color: var(--ink-on-dark-2); margin-top: var(--s5); max-width: 34ch;
+}
+.hero__footer {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s4);
+  margin-top: var(--s7);
+}
+.hero__cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 14px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--ink-on-dark); padding-bottom: 4px; border: 0; border-bottom: 1px solid var(--ink-on-dark-2);
+  background: transparent; cursor: pointer; font-family: inherit;
+  transition: color .2s ease, border-color .2s ease;
+}
+.hero__cta:hover { color: var(--caramel); border-color: var(--caramel); }
+.hero__cta span { transition: transform .2s ease; }
+.hero__cta:hover span { transform: translateX(4px); }
 
 /* 区段标题（编辑式：小字 eyebrow + 衬线标题 + 细线） */
 .home-section { padding-block: var(--s8) var(--s7); }
@@ -34,10 +75,38 @@
   display: flex; align-items: baseline; justify-content: space-between; gap: var(--s4);
   margin-bottom: var(--s7);
 }
+.home-section__head--light { color: var(--ink-on-dark); }
+.home-section__head--light .eyebrow { color: var(--ink-on-dark-2); }
+.home-section__head--light h2 { color: var(--ink-on-dark); }
+.home-section__head--light a { color: var(--ink-on-dark-2); }
+.home-section__head--light a:hover { color: var(--caramel); }
 .home-section__head .eyebrow { display: block; margin-bottom: var(--s2); }
 .home-section__head h2 { font-family: var(--font-display); font-size: clamp(28px, 3.4vw, 42px); font-weight: 500; }
 .home-section__head a { font-size: 14px; color: var(--ink-2); transition: color .15s ease; }
 .home-section__head a:hover { color: var(--caramel); }
+
+/* —— 精选：编辑式不规则网格 —— */
+.editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 55% 45%;
+  gap: var(--s5);
+  min-height: 78vh;
+}
+.editorial-grid .work-card { height: 100%; display: flex; flex-direction: column; }
+.editorial-grid .work-card__media {
+  position: relative; flex: 1; min-height: 0; overflow: hidden; background: var(--paper-2);
+}
+.editorial-grid .work-card__media img,
+.editorial-grid .work-card__media svg {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+}
+.feat--a { grid-column: 1 / 3; grid-row: 1 / 3; }
+.feat--b { grid-column: 3 / 5; grid-row: 1 / 2; }
+.feat--c { grid-column: 5 / 6; grid-row: 1 / 2; }
+.feat--d { grid-column: 3 / 4; grid-row: 2 / 3; }
+.feat--e { grid-column: 4 / 5; grid-row: 2 / 3; }
+.feat--f { grid-column: 5 / 6; grid-row: 2 / 3; }
 
 /* 类型索引（极简文字入口，不做企业官网卡片） */
 .cat-index { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
@@ -52,12 +121,48 @@
 .cat-index__bar { height: 2px; width: 36px; background: var(--cat, var(--ink-3)); margin-top: var(--s2); transition: width .25s ease; }
 .cat-index a:hover .cat-index__bar { width: 64px; }
 
+/* —— 漫画专区（深色出版物目录感） —— */
+.comic-issue__grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--s5);
+}
+.comic-issue {
+  display: flex; flex-direction: column; gap: var(--s3);
+  color: var(--ink-on-dark); transition: transform .3s ease;
+}
+.comic-issue:hover { transform: translateY(-4px); }
+.comic-issue__cover {
+  position: relative; aspect-ratio: 3 / 4; overflow: hidden; background: var(--espresso-2);
+}
+.comic-issue__cover img, .comic-issue__cover svg {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .7s cubic-bezier(.22,.61,.36,1);
+}
+.comic-issue:hover .comic-issue__cover img { transform: scale(1.02); }
+.comic-issue__num {
+  position: absolute; top: 10px; left: 10px; z-index: 2;
+  font-family: var(--font-display); font-size: clamp(28px, 2.6vw, 44px); font-weight: 500;
+  color: var(--ink-on-dark); text-shadow: 0 1px 8px rgba(33,27,20,.5);
+}
+.comic-issue__title { font-family: var(--font-display); font-size: clamp(18px, 1.4vw, 22px); font-weight: 500; line-height: 1.25; }
+.comic-issue__meta {
+  display: flex; flex-wrap: wrap; gap: 6px 14px;
+  font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-on-dark-2); margin-top: 2px;
+}
+/* 05 代代木权重最高：放大封面 */
+.comic-issue:nth-child(5) .comic-issue__cover { aspect-ratio: 3 / 4.6; }
+
 /* 关于预告 */
 .about-teaser { display: grid; grid-template-columns: 1fr 1.3fr; gap: var(--s7); align-items: center; }
-.about-teaser--text { grid-template-columns: 1fr; max-width: 720px; }
+.about-teaser--text { grid-template-columns: 1.2fr 1fr; gap: var(--s7); max-width: none; }
 .about-teaser__media { aspect-ratio: 4/5; overflow: hidden; background: var(--paper-2); }
 .about-teaser__media img, .about-teaser__media svg { width: 100%; height: 100%; object-fit: cover; }
 .about-teaser h2 { font-family: var(--font-display); font-size: clamp(30px, 3.6vw, 46px); font-weight: 500; margin: var(--s3) 0 var(--s4); }
+.about-teaser__stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s5);
+  border-left: 1px solid var(--line); padding-left: var(--s7);
+}
+.about-teaser__num { font-size: clamp(40px, 5vw, 72px); line-height: 1; color: var(--ink); }
+.about-teaser__label { font-size: 13px; color: var(--ink-3); margin-top: 8px; line-height: 1.5; }
 
 /* —— 作品列表页 —— */
 .page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; margin-bottom: var(--s6); padding-bottom: var(--s4); border-bottom: 1px solid var(--line); }
@@ -96,28 +201,32 @@
 .comic-divider { display: flex; align-items: center; gap: var(--s4); color: var(--ink-3); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; margin: var(--s6) 0; }
 .comic-divider::before, .comic-divider::after { content: ""; height: 1px; background: var(--line); flex: 1; }
 
-/* —— 个人介绍（编辑式：左栏 colophon + 右栏时间线，不用简历表格） —— */
+/* —— 个人介绍（编辑式履历：大数字 + 纵向章节 + 时间线） —— */
 .about { padding-block: var(--s7) var(--s9); }
 .about__head { max-width: 900px; margin-bottom: var(--s8); }
 .about__head .eyebrow { display: block; margin-bottom: var(--s4); }
 .about__name { font-family: var(--font-display); font-size: clamp(48px, 7vw, 96px); font-weight: 500; line-height: .98; }
 .about__role { font-size: 13px; letter-spacing: .22em; text-transform: uppercase; color: var(--ink-3); margin-top: var(--s4); }
-.about__lead { font-family: var(--font-display); font-size: clamp(20px, 2.6vw, 30px); line-height: 1.5; color: var(--ink); margin-top: var(--s5); max-width: 40ch; }
-.about__grid { display: grid; grid-template-columns: 340px 1fr; gap: var(--s8); align-items: start; }
-.about__colophon { position: sticky; top: calc(var(--nav-h) + var(--s5)); }
-.about__avatar { aspect-ratio: 1/1; overflow: hidden; background: var(--paper-2); margin-bottom: var(--s5); }
-.about__avatar img, .about__avatar svg { width: 100%; height: 100%; object-fit: cover; }
-.about__avatar--reserved, .about-teaser__media--reserved {
-  display: flex; align-items: center; justify-content: center;
-  background: var(--paper-2); color: var(--ink-3);
-  font-size: 12px; letter-spacing: .2em; text-transform: uppercase;
+.about__lead { font-family: var(--font-sans); font-size: clamp(16px, 1.5vw, 19px); line-height: 1.75; color: var(--ink-2); margin-top: var(--s5); max-width: 52ch; }
+.about__stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s6);
+  margin: var(--s6) 0 var(--s8); padding: var(--s6) 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
 }
-.about__bio { color: var(--ink-2); line-height: 1.8; font-size: 15px; }
-.about__contact { margin-top: var(--s5); padding-top: var(--s4); border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
-.about__contact-row { display: flex; justify-content: space-between; gap: var(--s4); font-size: 14px; }
-.about__contact-row .k { color: var(--ink-3); letter-spacing: .04em; }
+.about__stat-num {
+  font-family: var(--font-display); font-size: clamp(48px, 6vw, 80px); font-weight: 500; line-height: 1;
+}
+.about__stat-label { font-size: 13px; color: var(--ink-3); margin-top: 8px; }
+.about__grid { display: grid; grid-template-columns: 1fr; gap: var(--s8); }
 .about__section { margin-bottom: var(--s7); }
-.about__section h3 { font-family: var(--font-display); font-size: clamp(24px, 2.6vw, 32px); font-weight: 500; margin-bottom: var(--s4); padding-bottom: var(--s3); border-bottom: 1px solid var(--line); }
+.about__section h3 {
+  font-family: var(--font-display); font-size: clamp(24px, 2.6vw, 32px); font-weight: 500;
+  margin-bottom: var(--s4); padding-bottom: var(--s3); border-bottom: 1px solid var(--line);
+  display: flex; align-items: baseline; gap: var(--s3);
+}
+.about__sec-num {
+  font-family: var(--font-mono); font-size: 14px; letter-spacing: .06em;
+  color: var(--ink-3); font-weight: 400;
+}
 
 /* 时间线条目（年份为小标，标题在下，编辑式，非表格） */
 .cv-item { padding: var(--s4) 0; border-top: 1px solid var(--line); }

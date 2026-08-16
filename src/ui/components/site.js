@@ -3,9 +3,13 @@
 // ============================================================
 import { h } from '../../core/dom.js';
 
+let effectsInited = false;
+let revealObserver = null;
+
 export function renderNav() {
   const hash = location.hash.slice(1) || '/';
   const is = (p) => (p === '/' ? hash === '/' : hash.startsWith(p));
+  const isHome = hash === '/';
   const links = [
     { href: '#/works', label: '作品' },
     { href: '#/about', label: '关于' },
@@ -19,7 +23,8 @@ export function renderNav() {
     class: 'nav-toggle', 'aria-label': '菜单',
     on: { click: () => navLinks.classList.toggle('is-open') },
   }, '☰');
-  return h('header', { class: 'site-nav' },
+  const cls = ['site-nav', isHome ? 'site-nav--hero' : ''].filter(Boolean).join(' ');
+  return h('header', { class: cls },
     h('div', { class: 'container site-nav__inner' }, [
       h('a', { class: 'brand', href: '#/' }, [
         h('span', { class: 'brand__mark' }, 'QIU YUZHEN'),
@@ -27,6 +32,39 @@ export function renderNav() {
       ]),
       navLinks, toggle,
     ]));
+}
+
+function updateNavScroll() {
+  const nav = document.querySelector('.site-nav');
+  if (!nav) return;
+  const isHome = (location.hash.slice(1) || '/') === '/';
+  const threshold = window.innerHeight * 0.72;
+  nav.classList.toggle('site-nav--scrolled', isHome && window.scrollY > threshold);
+}
+
+export function observeReveals() {
+  if (!revealObserver) {
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  }
+  document.querySelectorAll('.reveal').forEach((el) => {
+    if (!el.classList.contains('is-visible')) revealObserver.observe(el);
+  });
+}
+
+export function initSiteEffects() {
+  if (effectsInited) return;
+  effectsInited = true;
+  window.addEventListener('scroll', updateNavScroll, { passive: true });
+  window.addEventListener('resize', updateNavScroll, { passive: true });
+  updateNavScroll();
+  observeReveals();
 }
 
 export function renderFooter() {

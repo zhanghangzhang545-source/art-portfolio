@@ -2,7 +2,7 @@
 // main.js — 应用入口：装配路由 + 站点框架（导航/页脚）
 // ============================================================
 import { Router } from './core/router.js';
-import { renderNav, renderFooter } from './ui/components/site.js';
+import { renderNav, renderFooter, initSiteEffects, observeReveals } from './ui/components/site.js';
 import { homeView } from './ui/pages/home.js';
 import { worksView } from './ui/pages/works.js';
 import { workDetailView } from './ui/pages/workDetail.js';
@@ -38,8 +38,12 @@ const router = new Router(routes, {
     if (!isAdmin) {
       navRoot.replaceChildren(renderNav());
       footerRoot.replaceChildren(renderFooter());
+      observeReveals();
+      // 重新评估导航主题
+      setTimeout(() => window.dispatchEvent(new Event('scroll')), 0);
     }
   },
 });
 
 router.start();
+initSiteEffects();
