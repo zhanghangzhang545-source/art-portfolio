@@ -51,7 +51,7 @@ portfolio/
 │  │     ├─ home.js  works.js  workDetail.js
 │  │     ├─ comicReaderPage.js  about.js
 │  │     └─ admin/            # 后台：login / dashboard / workEdit / comicPages / layout
-│  └─ styles/                 # 设计系统（莫兰迪 tokens + 基础/组件/页面/响应式）
+│  └─ styles/                 # 设计系统（美拉德 Maillard 暖色 tokens + 基础/组件/页面/响应式）
 ```
 
 ## 后续接入正式服务（替换点）
