@@ -1,5 +1,6 @@
 // ============================================================
 // workDetail.js — 作品详情（插画 / 油画 / 证书）
+// 首屏大图优先，文字信息后置；多图形成自然图文节奏。
 // 漫画类型自动跳转到阅读器。
 // ============================================================
 import { h } from '../../core/dom.js';
@@ -15,10 +16,10 @@ export async function workDetailView(params) {
   if (!work) return h('div', { class: 'container section' }, emptyState('作品不存在', '可能已被移除或链接有误。', h('a', { class: 'btn', href: '#/works' }, '返回作品库')));
   if (work.type === 'comic') { location.hash = `#/comic/${work.id}`; return h('div', {}); }
 
-  const galleryImgs = [work.cover, ...(work.images || [])];
-  const gallery = h('div', { class: 'detail__gallery' },
-    galleryImgs.map((v, i) => h('div', { class: 'detail__shot' }, imgEl(v, null, `${work.title} ${i + 1}`))));
+  // 首屏：大尺寸封面（作品为绝对主角）
+  const cover = h('div', { class: 'detail__cover' }, imgEl(work.cover, null, work.title));
 
+  // 文字信息后置
   const meta = h('div', { class: 'detail__meta' }, [
     metaRow('类型', typeName(work.type)),
     metaRow('创作年份', String(work.year)),
@@ -27,18 +28,20 @@ export async function workDetailView(params) {
     work.type === 'certificate' ? metaRow('颁发机构', work.issuer || '—') : null,
     work.type === 'certificate' ? metaRow('获得日期', work.certDate || '—') : null,
   ]);
-  const tags = h('div', { style: { display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '12px' } },
-    (work.tags || []).map((t) => h('span', { class: 'tag' }, t)));
-
-  const aside = h('div', { class: 'detail__aside' }, [
-    h('div', {}, [h('span', { class: 'demo-flag' }, 'DEMO'), h('span', { style: { marginLeft: '8px', color: 'var(--ink-3)', fontSize: '13px' } }, '占位示意')]),
+  const tags = h('div', { class: 'detail__tags' }, (work.tags || []).map((t) => h('span', { class: 'tag' }, t)));
+  const info = h('div', { class: 'detail__info' }, [
     h('h1', { class: 'detail__title' }, work.title),
-    meta, tags,
-    h('p', { class: 'detail__intro', style: { marginTop: '16px' } }, work.intro),
+    meta,
+    work.intro ? h('p', { class: 'detail__intro' }, work.intro) : null,
+    tags,
   ]);
 
+  // 多图：自然节奏（偶数张收窄居中）
+  const series = h('div', { class: 'detail__series' },
+    (work.images || []).map((v, i) => h('div', { class: 'detail__shot' }, imgEl(v, null, `${work.title} ${i + 2}`))));
+
   return h('div', { class: 'container' }, [
-    h('div', { style: { padding: '24px 0' } }, h('a', { class: 'btn btn--ghost btn--sm', href: '#/works' }, '← 返回作品库')),
-    h('div', { class: 'detail' }, [gallery, aside]),
+    h('div', { class: 'detail__top' }, h('a', { class: 'btn btn--ghost btn--sm', href: '#/works' }, '← 返回作品库')),
+    h('div', { class: 'detail' }, [cover, info, series]),
   ]);
 }

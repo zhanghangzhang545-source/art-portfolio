@@ -1,11 +1,12 @@
 // ============================================================
 // workCard.js — 作品卡片（无框、作品为绝对主角）
 //  · 图片按素材自然比例呈现，不裁剪到统一尺寸
-//  · 元信息默认隐藏，悬停 / 聚焦时淡入（手机端常显）
+//  · 图说常驻于图下（如美术馆展签：标题 + 年份·分类），不靠 hover 遮罩
 //  · 根据横/竖/方比例与精选标记，赋予杂志式版式尺寸
 // ============================================================
 import { h } from '../../core/dom.js';
 import { imgEl } from './media.js';
+import { typeName } from '../../data/types.js';
 
 function aspectOf(work) {
   const ratio = (work.cover && work.cover.ratio) || '4/5';
@@ -25,23 +26,19 @@ export function cardSizeClass(work) {
   return cls;
 }
 
-export function workCard(work) {
+export function workCard(work, i = 0) {
   const href = work.type === 'comic' ? `#/comic/${work.id}` : `#/work/${work.id}`;
   const media = h('div', { class: 'work-card__media' }, imgEl(work.cover, null, work.title));
   if (work.type === 'comic') media.appendChild(h('span', { class: 'work-card__badge tag tag--cat', style: { '--dot': 'var(--cat-comic)' } }, '漫画'));
   if (work.featured) media.appendChild(h('span', { class: 'work-card__featured tag tag--featured' }, '精选'));
 
-  const metaParts = [String(work.year)];
-  if (work.type === 'comic') metaParts.push(`共 ${(work.pages || []).length} 页`);
-  else if (work.stage) metaParts.push(work.stage);
+  const sub = [String(work.year), typeName(work.type)].filter(Boolean).join(' · ');
 
-  // 元信息容器：默认隐藏，悬停 / 聚焦显现
-  const caption = h('div', { class: 'work-card__caption' }, [
-    h('div', { class: 'work-card__title' }, work.title),
-    h('div', { class: 'work-card__meta' },
-      metaParts.map((m, i) => (i === 0 ? h('span', {}, m) : h('span', {}, '· ' + m)))),
+  // 图说：常驻于图下，克制如展签
+  const cap = h('div', { class: 'work-card__cap' }, [
+    h('span', { class: 'work-card__title' }, work.title),
+    h('span', { class: 'work-card__sub' }, sub),
   ]);
-  media.appendChild(caption);
 
-  return h('a', { class: `work-card ${cardSizeClass(work)} reveal`, href }, [media]);
+  return h('a', { class: `work-card ${cardSizeClass(work)} reveal`, href }, [media, cap]);
 }

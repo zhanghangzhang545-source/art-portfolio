@@ -1,36 +1,45 @@
 /* ============================================================
-   Design Tokens — 编辑 / 艺术画册式设计系统
-   简约 · 成熟 · 克制 · 作品为绝对主体 · 深炭黑正文保证对比
+   Design Tokens — 美拉德 / 编辑画册式设计系统
+   暖白米色为底 · 深炭黑正文 · 咖啡棕/焦糖棕/灰褐/卡其 仅作少量辅助
+   作品为绝对视觉主角 · 拒绝模板感与满屏棕色
    ============================================================ */
 :root {
-  /* —— 表面：暖纸感，绝不用纯白/纯黑 —— */
-  --paper:        #F4F1EB;  /* 页面背景，暖米白纸感 */
-  --surface:      #FAF7F1;  /* 面板/输入，近白暖 */
-  --surface-2:    #ECE6DB;  /* 次级表面 */
+  /* —— 表面：暖纸感；espresso 仅用于极少数强调区块（页脚/暗场） —— */
+  --paper:        #F6F1E7;  /* 页面主背景，暖白 */
+  --paper-2:      #EFE7D8;  /* 次级表面 / 区段底色 */
+  --paper-3:      #E8DFCD;  /* 更深的米色块 */
+  --espresso:     #211B14;  /* 深咖啡黑，用于暗场区块 */
+  --espresso-2:   #2C241B;
 
-  /* —— 文字：深炭黑为主，保证足够对比，不整体灰蒙蒙 —— */
-  --ink:          #1E1B16;  /* 主文字，深炭黑（暖） */
-  --ink-2:        #4A453C;  /* 次级文字 */
-  --ink-3:        #857E72;  /* 弱化/辅助文字（仍可读） */
+  /* —— 文字：深炭黑为主，保证对比，不整体灰蒙蒙 —— */
+  --ink:          #211C16;  /* 主文字，深炭黑（暖） */
+  --ink-2:        #4F463B;  /* 次级文字 */
+  --ink-3:        #8A7E6E;  /* 弱化/辅助文字（仍清晰可读，偏灰褐） */
+  --ink-on-dark:  #EFE7D8;  /* 暗场上的文字 */
+  --ink-on-dark-2:#B6A88F;
 
   /* —— 发丝级分隔线 —— */
-  --line:         #E0D9CC;
-  --line-strong:  #CFC5B4;
+  --line:         #E4DBCA;
+  --line-strong:  #D2C5AD;
+  --line-dark:    rgba(239,231,216,.16);
 
-  /* —— 单一强调色：收敛的陶土 / 赭石（极少使用） —— */
-  --accent:       #9A6A4C;
-  --accent-weak:  #ECE0D3;
-  --accent-ink:   #6B4733;
+  /* —— 美拉德辅助色（少量使用，不铺满） —— */
+  --coffee:       #4A3526;  /* 咖啡棕，最重 */
+  --caramel:      #B07D4C;  /* 焦糖棕，单一强调色 */
+  --caramel-weak: #EAD9C4;  /* 焦糖的极浅底 */
+  --taupe:        #9C8A74;  /* 灰褐 */
+  --khaki:        #B6A682;  /* 卡其 */
 
-  /* —— 低饱和辅助色（灰绿 / 灰蓝 / 灰褐 / 灰紫），仅用于极小色点 —— */
-  --cat-illustration: #7C8A6F;
-  --cat-comic:        #74859A;
+  /* —— 分类色点（去饱和，仅极小色点） —— */
+  --cat-illustration: #9C8A74;
+  --cat-comic:        #8C8470;
   --cat-oil:          #A6856A;
-  --cat-certificate:  #94868A;
+  --cat-certificate:  #9A8B86;
 
-  /* —— 字体：中文衬线标题（画册感） + 中性无衬线正文 —— */
-  --font-display: "Cormorant Garamond", "Noto Serif SC", "Songti SC", "STSong", Georgia, "Times New Roman", "SimSun", serif;
-  --font-sans: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  /* —— 字体：拉丁衬线 Fraunces（带光学轴，温暖有性格）+ 中文衬线 Noto Serif SC
+        正文用 Manrope（干净现代）+ 系统中文无衬线兜底 —— */
+  --font-display: "Fraunces", "Noto Serif SC", "Songti SC", "STSong", Georgia, "Times New Roman", "SimSun", serif;
+  --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
   --font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
 
   /* —— 间距尺度（8pt 体系，放大呼吸感） —— */
@@ -38,15 +47,15 @@
   --s5: 24px; --s6: 36px; --s7: 56px; --s8: 80px; --s9: 120px;
 
   /* —— 圆角：几乎直角，拒绝统一大圆角卡片 —— */
-  --r-sm: 0px; --r-md: 2px; --r-lg: 3px;
+  --r-sm: 0px; --r-md: 2px; --r-lg: 4px;
 
   /* —— 阴影：几乎不用，仅极轻提示 —— */
-  --shadow-sm: 0 1px 2px rgba(30,27,22,.05);
-  --shadow-md: 0 12px 40px rgba(30,27,22,.10);
+  --shadow-sm: 0 1px 2px rgba(33,27,20,.06);
+  --shadow-md: 0 18px 50px rgba(33,27,20,.12);
 
   /* —— 布局 —— */
-  --maxw: 1180px;
-  --maxw-wide: 1320px;
-  --nav-h: 72px;
-  --pad-x: clamp(20px, 6vw, 88px);
+  --maxw: 1200px;
+  --maxw-wide: 1360px;
+  --nav-h: 74px;
+  --pad-x: clamp(20px, 6vw, 96px);
 }

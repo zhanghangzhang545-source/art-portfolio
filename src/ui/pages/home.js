@@ -1,6 +1,6 @@
 // ============================================================
 // home.js — 首页（编辑 / 画册式）
-//  第一屏：艺术家姓名 + 一句身份 + 代表作品大图（明确视觉中心）
+//  第一屏：大尺寸代表作品为主视觉，姓名/身份/一句介绍克制组合
 //  向下：精选作品（杂志式不规则网格）→ 作品分类（极简索引）→ 关于预告
 // ============================================================
 import { h } from '../../core/dom.js';
@@ -8,7 +8,7 @@ import { repo } from '../../data/services.js';
 import { workCard } from '../components/workCard.js';
 import { imgEl } from '../components/media.js';
 import { emptyState } from '../components/primitives.js';
-import { WORK_TYPES } from '../../data/types.js';
+import { WORK_TYPES, typeName } from '../../data/types.js';
 
 export async function homeView() {
   const [all, featured] = await Promise.all([
@@ -27,21 +27,21 @@ export async function homeView() {
       h('div', { class: 'cat-index__bar', style: { '--cat': t.color } }),
     ]));
 
-  // —— 第一屏：明确视觉中心 ——
+  // —— 第一屏：大尺寸代表作品为主视觉；文字克制组合 ——
   const hero = h('section', { class: 'container hero' }, [
-    h('div', { class: 'hero__text' }, [
+    h('div', { class: 'hero__intro' }, [
       h('div', { class: 'eyebrow hero__eyebrow' }, '视觉创作者 · PORTFOLIO'),
-      h('h1', { class: 'hero__title' }, ['林砚秋']),
-      h('div', { class: 'hero__ident' }, '插画 · 漫画 · 油画'),
-      h('p', { class: 'hero__lead' }, '以安静、克制的笔触，记录光与日常。这里只陈列作品本身。'),
+      h('h1', { class: 'hero__name' }, '林砚秋'),
+      h('div', { class: 'hero__role' }, '插画 · 漫画 · 油画'),
+      h('p', { class: 'hero__lead' }, '以安静、克制的笔触，记录光与日常。'),
       h('div', { class: 'hero__links' }, [
-        h('a', { class: 'link', href: '#/works' }, ['浏览全部作品', h('span', { class: 'arrow' }, '→')]),
-        h('a', { class: 'link', href: '#/about' }, ['关于艺术家', h('span', { class: 'arrow' }, '→')]),
+        h('a', { class: 'link', href: '#/works' }, ['浏览作品', h('span', { class: 'arrow' }, '→')]),
       ]),
     ]),
-    h('div', { class: 'hero__media' }, [
-      h('div', { class: 'frame' }, imgEl(heroArt.cover, null, heroArt.title)),
+    h('div', { class: 'hero__art' }, [
+      h('div', { class: 'hero__frame' }, imgEl(heroArt.cover, null, heroArt.title)),
       h('div', { class: 'hero__caption' }, h('span', { class: 'demo-flag' }, 'DEMO')),
+      h('div', { class: 'hero__cap' }, `${heroArt.title} · ${heroArt.year} · ${typeName(heroArt.type)}`),
     ]),
   ]);
 
@@ -51,7 +51,7 @@ export async function homeView() {
       h('div', {}, [h('div', { class: 'eyebrow' }, 'SELECTED'), h('h2', {}, '精选作品')]),
       h('a', { href: '#/works?featured=1' }, '查看全部精选 →'),
     ]),
-    featured.length ? h('div', { class: 'mag-grid' }, featured.slice(0, 6).map(workCard))
+    featured.length ? h('div', { class: 'mag-grid' }, featured.slice(0, 6).map((w, i) => workCard(w, i)))
       : emptyState('暂无精选', '可在后台将作品标记为“精选”。'),
   ]);
 

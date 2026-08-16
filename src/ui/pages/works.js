@@ -16,9 +16,9 @@ function comicRow(work) {
   return h('a', { class: 'comic-row', href: `#/comic/${work.id}` }, [
     h('div', { class: 'comic-row__cover' }, imgEl(work.cover, null, work.title)),
     h('div', {}, [
-      h('div', { class: 'work-card__title', style: { fontSize: '18px' } }, work.title),
-      h('div', { class: 'work-card__meta' }, [String(work.year), work.stage ? '· ' + work.stage : null]),
-      h('p', { class: 'secondary', style: { marginTop: '6px', fontSize: '14px' } }, work.intro),
+      h('div', { class: 'comic-row__title' }, work.title),
+      h('div', { class: 'comic-row__meta' }, [String(work.year), work.stage ? '· ' + work.stage : null].filter(Boolean).join(' ')),
+      work.intro ? h('p', { class: 'comic-row__intro' }, work.intro) : null,
     ]),
     h('div', { class: 'comic-row__pages' }, `共 ${work.pages.length} 页 →`),
   ]);
@@ -49,8 +49,8 @@ export async function worksView(params, query) {
     }
     let grid;
     if (criteria.type === 'comic') grid = h('div', {}, data.map(comicRow));
-    else if (criteria.type === 'certificate') grid = h('div', { class: 'cert-grid' }, data.map(workCard));
-    else grid = h('div', { class: 'mag-grid' }, data.map(workCard));
+    else if (criteria.type === 'certificate') grid = h('div', { class: 'cert-grid' }, data.map((w, i) => workCard(w, i)));
+    else grid = h('div', { class: 'mag-grid' }, data.map((w, i) => workCard(w, i)));
     results.appendChild(grid);
   }
 
