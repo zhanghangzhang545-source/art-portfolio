@@ -5,7 +5,7 @@
 import { h } from '../../../core/dom.js';
 import { repo, auth, storage } from '../../../data/services.js';
 import { imgEl } from '../../components/media.js';
-import { toast } from '../../components/primitives.js';
+import { toast, bindFileDrop } from '../../components/primitives.js';
 import { adminLayout } from './layout.js';
 
 export async function adminComicPagesView(params) {
@@ -45,11 +45,14 @@ export async function adminComicPagesView(params) {
   }
   render();
 
-  const addInput = h('input', { type: 'file', accept: 'image/*', multiple: true, on: { change: async (e) => {
-    for (const f of e.target.files) { const r = await storage.upload(f); await repo.addComicPage(work.id, r.url); }
+  const addPages = async (files) => {
+    for (const f of files) { const r = await storage.upload(f); await repo.addComicPage(work.id, r.url); }
     Object.assign(work, await repo.getById(work.id));
-    render(); e.target.value = ''; toast('已添加漫画页（Demo）');
-  } } });
+    render(); toast('已添加漫画页（Demo）');
+  };
+  const addInput = h('input', { type: 'file', accept: 'image/*', multiple: true, on: { change: async (e) => { await addPages(e.target.files); e.target.value = ''; } } });
+  const drop = h('div', { class: 'file-drop' }, [h('p', {}, '点击或拖拽上传漫画页（可多选）'), addInput]);
+  bindFileDrop(drop, addInput, addPages);
 
   const content = h('div', {}, [
     h('div', { class: 'admin__head' }, [
@@ -58,7 +61,7 @@ export async function adminComicPagesView(params) {
       h('a', { class: 'btn btn--sm', href: `#/comic/${work.id}` }, '预览阅读'),
     ]),
     h('p', { class: 'secondary', style: { marginBottom: '16px' } }, '支持批量上传多页，并用 ↑/↓ 调整顺序（顺序即阅读顺序）。'),
-    h('div', { class: 'file-drop' }, [h('p', {}, '点击或拖拽上传漫画页（可多选）'), addInput]),
+    drop,
     h('div', { style: { marginTop: '24px' } }, list),
   ]);
   return adminLayout('dashboard', content);

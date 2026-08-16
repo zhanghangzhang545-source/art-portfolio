@@ -5,7 +5,7 @@
 import { h } from '../../../core/dom.js';
 import { repo, auth, storage } from '../../../data/services.js';
 import { imgEl } from '../../components/media.js';
-import { toast } from '../../components/primitives.js';
+import { toast, bindFileDrop } from '../../components/primitives.js';
 import { adminLayout } from './layout.js';
 import { WORK_TYPES, STAGES } from '../../../data/types.js';
 
@@ -49,10 +49,13 @@ export async function adminWorkEditView(params) {
   const coverPrev = h('div', { class: 'thumb', style: { width: '120px' } });
   const renderCover = () => { coverPrev.innerHTML = ''; if (cover.value) coverPrev.appendChild(imgEl(cover.value, null, '封面')); };
   renderCover();
-  const coverInput = h('input', { type: 'file', accept: 'image/*', on: { change: async (e) => {
-    const f = e.target.files[0]; if (!f) return;
+  const setCover = async (files) => {
+    const f = files[0]; if (!f) return;
     const r = await storage.upload(f); cover.value = r.url; renderCover(); toast('封面已上传（Demo）');
-  } } });
+  };
+  const coverInput = h('input', { type: 'file', accept: 'image/*', on: { change: async (e) => { await setCover(e.target.files); e.target.value = ''; } } });
+  const coverDrop = h('div', { class: 'file-drop' }, [h('p', {}, '点击或拖拽上传封面'), coverInput]);
+  bindFileDrop(coverDrop, coverInput, setCover);
 
   const titleI = h('input', { type: 'text', value: existing?.title || '', placeholder: '作品标题' });
   const introI = h('textarea', { placeholder: '作品简介' }, existing?.intro || '');
@@ -77,14 +80,17 @@ export async function adminWorkEditView(params) {
     });
   };
   renderImages();
-  const imgInput = h('input', { type: 'file', accept: 'image/*', multiple: true, on: { change: async (e) => {
-    for (const f of e.target.files) { const r = await storage.upload(f); imagesState.push(r.url); }
-    renderImages(); e.target.value = ''; toast('已添加图片（Demo）');
-  } } });
+  const addImages = async (files) => {
+    for (const f of files) { const r = await storage.upload(f); imagesState.push(r.url); }
+    renderImages(); toast('已添加图片（Demo）');
+  };
+  const imgInput = h('input', { type: 'file', accept: 'image/*', multiple: true, on: { change: async (e) => { await addImages(e.target.files); e.target.value = ''; } } });
+  const imgDrop = h('div', { class: 'file-drop' }, [h('p', {}, '点击或拖拽上传多张图片'), imgInput]);
+  bindFileDrop(imgDrop, imgInput, addImages);
 
   const imagesSection = h('div', { class: 'field' }, [
     h('label', { class: 'field__label' }, '作品图片（可多张）'),
-    h('div', { class: 'file-drop' }, [h('p', {}, '点击或拖拽上传多张图片'), imgInput]),
+    imgDrop,
     imgList,
   ]);
 
@@ -119,7 +125,7 @@ export async function adminWorkEditView(params) {
       h('div', { class: 'field' }, [h('label', { class: 'field__label' }, '创作年份'), yearI]),
       h('div', { class: 'field' }, [h('label', { class: 'field__label' }, '创作阶段'), stageI, stageList]),
     ]),
-    h('div', { class: 'field' }, [h('label', { class: 'field__label' }, '封面'), h('div', { class: 'file-drop' }, [h('p', {}, '点击或拖拽上传封面'), coverInput]), coverPrev]),
+    h('div', { class: 'field' }, [h('label', { class: 'field__label' }, '封面'), coverDrop, coverPrev]),
     imagesSection,
     h('div', { class: 'field' }, [h('label', { class: 'field__label' }, '标签（关键词，回车添加）'), tagsInput.el]),
     h('div', { class: 'form-grid' }, [

@@ -145,7 +145,7 @@
 .switch input:checked + .switch__track + .switch__thumb { transform: translateX(20px); }
 
 /* 文件拖拽 / 上传 */
-.file-drop { border: 1px dashed var(--line-strong); border-radius: var(--r-md); padding: var(--s5); text-align: center; color: var(--ink-3); background: var(--paper); }
+.file-drop { border: 1px dashed var(--line-strong); border-radius: var(--r-md); padding: var(--s5); text-align: center; color: var(--ink-3); background: var(--paper); cursor: pointer; }
 .file-drop.is-drag { border-color: var(--caramel); background: var(--caramel-weak); }
 .file-drop input { display: none; }
 .thumb-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: var(--s3); margin-top: var(--s3); }
